@@ -5,13 +5,43 @@ exposes every element that appears in a pipeline definition, both the
 standard GStreamer/DL Streamer elements (`filesrc`, `decodebin3`, `queue`,
 `gvadetect`, `gvaclassify`, `gvatrack`, `gvawatermark`, `gvametaconvert`,
 `gvametapublish`, ...) and any custom Python module loaded through
-`gvapython`. To make a new element show up in the editor it is enough to
-reference it in a pipeline (see
-[How to add a new pipeline](./new-pipeline.md)). This page focuses on the
-two extension points contributors actually have:
+`gvapython`. If the element is already provided by the base image, it is
+enough to reference it in a pipeline (see
+[How to add a new pipeline](./new-pipeline.md)) to make it show up in the
+editor. This page focuses on the three extension points contributors
+actually have:
 
-1. Loading custom Python scripts through the `gvapython` element.
-2. Controlling whether an element is visible in the simplified pipeline view.
+1. Shipping a GStreamer plugin that is **not** part of the base image and
+   giving it a proper node in the pipeline editor.
+2. Loading custom Python scripts through the `gvapython` element.
+3. Controlling whether an element is visible in the simplified pipeline view.
+
+## Add an element that is not in the base image
+
+The `gencamsrc` and `pylonsrc` camera sources, added for the proof-of-concept
+Basler GigE Vision support, are a complete reference implementation. Follow the
+same steps:
+
+1. **Install the plugin** in the `prod` stage of `vippet/Dockerfile`, either
+   built from sources or from a package. Keep anything that noticeably grows the
+   image or depends on a vendor SDK behind a build argument that defaults to
+   *off*, and forward that argument in `compose.yml` and `setup_env.sh`.
+2. **Make the plugin discoverable**: add its install directory to
+   `GST_PLUGIN_PATH` and set any environment variable the vendor SDK needs at
+   runtime. Verify with `gst-inspect-1.0 <element>` inside `make shell`.
+3. **Declare runtime requirements**, if any. Extra devices, volumes or networks
+   belong in `compose.yml`, with host-specific values kept in `setup_env.sh`.
+4. **Reference the element from a pipeline** under `vippet/pipelines/` - an
+   element only becomes reachable from the UI once a pipeline uses it. See
+   [How to add a new pipeline](./new-pipeline.md).
+5. **Add a node component** in `ui/src/features/pipeline-editor/nodes/` and
+   register it in `nodes/index.ts` under the exact GStreamer element name.
+   Without it the editor falls back to a plain default box.
+6. **Validate and document**: run `make lint`, `make test` and `make build run`,
+   check the element in both the Advanced and the Simple view, and describe any
+   new build argument or environment variable in the README,
+   [`AGENTS.md`](https://github.com/open-edge-platform/edge-ai-libraries/blob/main/tools/visual-pipeline-and-platform-evaluation-tool/AGENTS.md)
+   and, when it is user facing, in the user documentation.
 
 ## Use custom `gvapython` modules (deprecated)
 
