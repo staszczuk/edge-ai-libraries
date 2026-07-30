@@ -53,7 +53,27 @@ To authorize a camera:
 
 ## GigE Vision Cameras
 
-*To be addressed in the 2026.2 release.*
+GigE Vision camera support is an early proof of concept limited to **Basler** cameras. It is disabled
+by default and has to be enabled at build time, see
+[Basler GigE Vision cameras](../../get-started/installation/pre-installation-steps.md#basler-gige-vision-cameras-proof-of-concept).
+
+Unlike USB and network cameras, GigE cameras are not detected by ViPPET, are not shown in the
+*Cameras* tab, and cannot be selected from the *Source* dropdown in the Pipeline Builder. They are
+usable only through two dedicated predefined pipelines, both tagged **Basler** and available in a CPU
+variant only:
+
+- **Defect Detection (gencamsrc)** - uses the generic GenICam `gencamsrc` element with the pylon
+  GenTL producer.
+- **Defect Detection (pylonsrc)** - uses the Basler-specific `pylonsrc` element from
+  `gst-plugin-pylon`.
+
+Both pipelines connect to the first camera found on the configured subnet. Camera settings such as
+exposure, gain, and pixel format are set directly on the source element in the pipeline definition,
+so adjust them in the Pipeline Builder if the defaults do not match your camera.
+
+> **Note:** If such a pipeline fails to start, verify that the camera is reachable from the host,
+> that `BASLER_MACVLAN_PARENT` and `BASLER_NETWORK_SUBNET` match the camera configuration, and that
+> the image was rebuilt with `ENABLE_BASLER_CAMERAS=1`.
 
 ## Use cameras in pipelines as input sources
 

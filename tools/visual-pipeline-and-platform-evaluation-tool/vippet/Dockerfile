@@ -19,6 +19,10 @@
 # Use DLStreamer as the base image
 FROM intel/dlstreamer:2026.1.0-ubuntu24 AS prod
 
+ARG ENABLE_BASLER_CAMERAS=0
+
+ARG PYLON_URL=
+
 # Switch to root user to install dependencies
 USER root
 
@@ -32,13 +36,43 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
     rm -f /etc/apt/apt.conf.d/docker-clean && \
     apt-get update && \
-    apt-get install --yes --no-install-recommends yq v4l-utils
+    apt-get install --yes --no-install-recommends yq v4l-utils && \
+    if [ "$ENABLE_BASLER_CAMERAS" != 1 ]; then exit 0; fi && \
+    apt-get install --yes --no-install-recommends cmake build-essential libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio
+
+# Install pylon
+RUN if [ "$ENABLE_BASLER_CAMERAS" != 1 ]; then exit 0; fi && \
+    curl -L -o pylon.tar.gz "$PYLON_URL" && \
+    mkdir pylon && \
+    tar -xf ./pylon.tar.gz -C ./pylon && \
+    rm ./pylon.tar.gz && \
+    apt-get install --yes --no-install-recommends ./pylon/pylon_*.deb && \
+    rm -r ./pylon
+
+# Install gencamsrc GStreamer plugin
+RUN if [ "$ENABLE_BASLER_CAMERAS" != 1 ]; then exit 0; fi && \
+    git clone https://github.com/open-edge-platform/edge-ai-libraries.git && \
+    cd ./edge-ai-libraries/microservices/dlstreamer-pipeline-server/plugins/camera/src-gst-gencamsrc && \
+    cmake -B build -DCMAKE_BUILD_TYPE=Release && \
+    cmake --build ./build -j "$(nproc)" && \
+    cmake --install ./build && \
+    rm -r ./build && \
+    cd ../../../../../.. && \
+    ldconfig
+
+# Install pylonsrc GStreamer plugin
+RUN if [ "$ENABLE_BASLER_CAMERAS" != 1 ]; then exit 0; fi && \
+    curl -LO https://github.com/basler/gst-plugin-pylon/releases/download/v1.0.0/gst-plugin-pylon_1.0.0-1.ubuntu-24.04_amd64.deb && \
+    apt-get install ./gst-plugin-pylon_1.0.0-1.ubuntu-24.04_amd64.deb && \
+    rm ./gst-plugin-pylon_1.0.0-1.ubuntu-24.04_amd64.deb
 
 # Switch to dlstreamer user
 USER dlstreamer
 
-# Set GStreamer plugin path (original GST_PLUGIN_PATH ends with a colon, so there is no need to add one here)
-ENV GST_PLUGIN_PATH=$GST_PLUGIN_PATH/usr/lib/x86_64-linux-gnu/gstreamer-1.0/
+# Set GStreamer plugin path
+ENV GST_PLUGIN_PATH=$GST_PLUGIN_PATH:/usr/lib/x86_64-linux-gnu/gstreamer-1.0/:/usr/local/lib/gstreamer-1.0
+
+ENV GENICAM_GENTL64_PATH=/opt/pylon/lib/gentlproducer/gtl/
 
 # Add DLSOptimizer scripts to PYTHONPATH
 ENV PYTHONPATH=$PYTHONPATH:/opt/intel/dlstreamer/scripts/optimizer/

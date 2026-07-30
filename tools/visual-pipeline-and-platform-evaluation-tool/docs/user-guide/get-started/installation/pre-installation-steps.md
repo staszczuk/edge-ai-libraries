@@ -79,3 +79,43 @@ make stop run
 
 A simple `docker compose restart model-download` is **not** enough if you also changed
 `compose.yml`, because Compose needs to re-read the file. Using `make stop run` always works.
+
+### Basler GigE Vision cameras (proof of concept)
+
+GigE Vision camera support is an early proof of concept limited to **Basler** cameras. It is
+**disabled by default** because it enlarges the container image and requires host-specific network
+configuration. Enable it only if a Basler GigE camera is attached to the host.
+
+GigE cameras are not listed in the *Cameras* page and cannot be picked as a pipeline source. They
+can only be used through the two dedicated predefined pipelines described in
+[Cameras](../../user-guide/input-management/cameras.md#gige-vision-cameras).
+
+#### Prepare the host and the camera
+
+1. Install **pylon 7.5.0** on the host. Download the x86 (64-bit) installer from the
+   [Basler software downloads](https://www.baslerweb.com/en/downloads/software/) page.
+2. Configure the camera with the pylon GigE Configurator, as described in
+   [Overview of the pylon GigE Configurator](https://docs.baslerweb.com/overview-of-the-pylon-gige-configurator).
+   Note the subnet assigned to the camera and the host interface it is connected to.
+
+#### Configure ViPPET
+
+Edit `setup_env.sh` and set the following variables:
+
+- `ENABLE_BASLER_CAMERAS` - set to `1` to build the image with pylon and the `gencamsrc` and
+  `pylonsrc` GStreamer plugins.
+- `PYLON_URL` - direct download link to the pylon 7.5.0 x86 (64-bit) installer archive, taken from
+  the Basler downloads page.
+- `BASLER_MACVLAN_PARENT` - host network interface the camera is connected to, for example `eth1`.
+- `BASLER_NETWORK_SUBNET` - subnet the camera was configured in, for example `192.168.1.0/24`.
+
+These variables are written to the generated `.env` file. Change them in `setup_env.sh` and not in
+`.env`, because `.env` is regenerated on every `make build` and `make run`.
+
+#### Apply the change
+
+`ENABLE_BASLER_CAMERAS` and `PYLON_URL` are build arguments, so the image has to be rebuilt:
+
+```bash
+make build run
+```

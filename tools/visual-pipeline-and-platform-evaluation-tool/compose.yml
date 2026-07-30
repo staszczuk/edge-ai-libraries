@@ -10,6 +10,8 @@ x-vippet: &vippet
       http_proxy:
       https_proxy:
       no_proxy:
+      ENABLE_BASLER_CAMERAS:
+      PYLON_URL:
   healthcheck:
     test: ["CMD", "curl", "--fail", "--silent", "--show-error", "--output", "/dev/null", "http://localhost:7860/api/v1/health"]
     interval: 10s
@@ -90,7 +92,10 @@ x-vippet: &vippet
     - ./shared/scripts/:/scripts
     - ./shared/onvif/:/onvif
     - ./shared/metadata/:/metadata
-
+  networks:
+    default:
+      gw_priority: 100
+    basler:
 services:
   vippet-ui:
     image: docker.io/intel/vippet-ui:${DOCKER_TAG}
@@ -263,3 +268,13 @@ services:
       http_proxy: ${http_proxy}
       https_proxy: ${https_proxy}
       no_proxy: ${no_proxy}
+networks:
+  default:
+    driver: bridge
+  basler:
+    driver: macvlan
+    driver_opts:
+      parent: $BASLER_MACVLAN_PARENT
+    ipam:
+      config:
+        - subnet: $BASLER_NETWORK_SUBNET

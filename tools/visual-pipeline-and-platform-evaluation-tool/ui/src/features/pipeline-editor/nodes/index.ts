@@ -43,6 +43,8 @@ import VideoXRawNode from "./VideoXRawNode.tsx";
 import VideoXRawWithDimensionsNode from "./VideoXRawWithDimensionsNode.tsx";
 import AvDecH264Node from "./AvDecH264Node.tsx";
 import SourceNode, { SourceNodeWidth } from "./custom/SourceNode.tsx";
+import GenCamSrcNode from "./GenCamSrcNode.tsx";
+import PylonSrcNode from "./PylonSrcNode.tsx";
 
 export const nodeTypes = {
   filesrc: FileSrcNode,
@@ -76,6 +78,8 @@ export const nodeTypes = {
   splitmuxsink: SplitMuxSinkNode,
   videoscale: VideoScaleNode,
   source: SourceNode,
+  gencamsrc: GenCamSrcNode,
+  pylonsrc: PylonSrcNode,
 };
 
 export const nodeWidths: Record<string, number> = {
