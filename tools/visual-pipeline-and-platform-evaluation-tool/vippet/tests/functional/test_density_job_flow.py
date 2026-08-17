@@ -77,6 +77,7 @@ def _attempt_density_job(session: requests.Session, payload: JsonDict) -> JsonDi
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", PIPELINE_CASES, ids=CASE_IDS)
+@pytest.mark.test_case_key("NEX-T27740")
 def test_density_job_completes_successfully(
     http_client: requests.Session,
     case: PipelineCase | None,
@@ -120,6 +121,7 @@ def test_density_job_completes_successfully(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27741")
 def test_start_density_job_with_nonexistent_variant_returns_400(
     http_client: requests.Session,
 ) -> None:

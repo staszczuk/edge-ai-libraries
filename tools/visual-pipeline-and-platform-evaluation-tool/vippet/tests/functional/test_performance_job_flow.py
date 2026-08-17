@@ -74,6 +74,7 @@ def _attempt_performance_job(session: requests.Session, payload: JsonDict) -> Js
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", PIPELINE_CASES, ids=CASE_IDS)
+@pytest.mark.test_case_key("NEX-T27787")
 def test_performance_job_completes_successfully(
     http_client: requests.Session,
     case: PipelineCase | None,
@@ -118,6 +119,7 @@ def test_performance_job_completes_successfully(
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", PIPELINE_CASES, ids=CASE_IDS)
+@pytest.mark.test_case_key("NEX-T27788")
 def test_performance_file_output_job_completes_successfully(
     http_client: requests.Session,
     case: PipelineCase | None,
@@ -166,6 +168,7 @@ def test_performance_file_output_job_completes_successfully(
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", PIPELINE_CASES, ids=CASE_IDS)
+@pytest.mark.test_case_key("NEX-T27789")
 def test_performance_live_stream_output_job_completes_successfully(
     http_client: requests.Session,
     case: PipelineCase | None,
@@ -208,6 +211,7 @@ def test_performance_live_stream_output_job_completes_successfully(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27790")
 def test_start_performance_job_with_zero_streams_returns_400(
     http_client: requests.Session,
 ) -> None:
@@ -237,6 +241,7 @@ def test_start_performance_job_with_zero_streams_returns_400(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27791")
 def test_start_performance_job_with_nonexistent_variant_returns_400(
     http_client: requests.Session,
 ) -> None:

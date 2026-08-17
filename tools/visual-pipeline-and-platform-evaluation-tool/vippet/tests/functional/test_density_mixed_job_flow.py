@@ -163,6 +163,7 @@ def _attempt_density_job(session: requests.Session, payload: JsonDict) -> JsonDi
     SAMPLE_MIXED_PAIRS,
     ids=[f"{a}__{b}".replace(" ", "_") for a, b in SAMPLE_MIXED_PAIRS],
 )
+@pytest.mark.test_case_key("NEX-T27742")
 def test_mixed_density_job_completes_successfully(
     http_client: requests.Session,
     name_fixed: str,
@@ -261,6 +262,7 @@ def _variant_pipeline(pid: str, vid: str) -> JsonDict:
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27743")
 def test_mixed_density_one_spec_returns_400(http_client: requests.Session) -> None:
     """A single spec with ``streams`` set is invalid for mixed mode."""
     payload = {
@@ -280,6 +282,7 @@ def test_mixed_density_one_spec_returns_400(http_client: requests.Session) -> No
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27744")
 def test_mixed_density_three_specs_returns_400(http_client: requests.Session) -> None:
     """Three specs (with one ``streams`` set) are invalid for mixed mode."""
     payload = {
@@ -301,6 +304,7 @@ def test_mixed_density_three_specs_returns_400(http_client: requests.Session) ->
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27745")
 def test_mixed_density_both_specs_with_streams_returns_400(
     http_client: requests.Session,
 ) -> None:

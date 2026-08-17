@@ -92,6 +92,7 @@ def _route_was_called(
     return False
 
 
+@pytest.mark.test_case_key("NEX-T27840")
 def test_all_api_endpoints_called_at_least_once(
     http_client: requests.Session,
     recorded_api_calls: set[tuple[str, str]],

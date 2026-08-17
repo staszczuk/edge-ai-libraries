@@ -22,6 +22,7 @@ REQUIRED_VIDEO_KEYS: set[str] = {
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27829")
 def test_videos_endpoint_returns_valid_structure(http_client: requests.Session) -> None:
     videos = fetch_videos(http_client)
 
@@ -34,6 +35,7 @@ def test_videos_endpoint_returns_valid_structure(http_client: requests.Session) 
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27830")
 def test_all_default_recordings_are_available(
     http_client: requests.Session,
     default_recordings_config: list[dict[str, Any]],

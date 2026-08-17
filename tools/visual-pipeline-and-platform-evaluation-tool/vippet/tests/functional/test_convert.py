@@ -28,6 +28,7 @@ _EMPTY_GRAPH: JsonDict = {"nodes": [], "edges": []}
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27736")
 def test_convert_valid_pipeline_description_to_graph(
     http_client: requests.Session,
 ) -> None:
@@ -60,6 +61,7 @@ def test_convert_valid_pipeline_description_to_graph(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27737")
 def test_convert_invalid_pipeline_description_returns_400(
     http_client: requests.Session,
 ) -> None:
@@ -79,6 +81,7 @@ def test_convert_invalid_pipeline_description_returns_400(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27738")
 def test_convert_valid_pipeline_graph_to_description(
     http_client: requests.Session,
 ) -> None:
@@ -102,6 +105,7 @@ def test_convert_valid_pipeline_graph_to_description(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27739")
 def test_convert_empty_graph_to_description_returns_400(
     http_client: requests.Session,
 ) -> None:

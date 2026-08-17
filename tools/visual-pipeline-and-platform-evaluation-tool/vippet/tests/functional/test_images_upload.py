@@ -53,6 +53,7 @@ def _trunk_for(run_id: str, base: str) -> str:
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27749")
 def test_upload_valid_zip_with_pngs_succeeds(
     http_client: requests.Session,
     make_zip_archive,
@@ -109,6 +110,7 @@ def test_upload_valid_zip_with_pngs_succeeds(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27750")
 def test_upload_valid_tar_with_pngs_succeeds(
     http_client: requests.Session,
     make_tar_archive,
@@ -133,6 +135,7 @@ def test_upload_valid_tar_with_pngs_succeeds(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27751")
 def test_upload_valid_tar_gz_with_bmps_succeeds(
     http_client: requests.Session,
     make_tar_archive,
@@ -157,6 +160,7 @@ def test_upload_valid_tar_gz_with_bmps_succeeds(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27752")
 def test_upload_valid_zip_with_jpgs_succeeds(
     http_client: requests.Session,
     make_zip_archive,
@@ -186,6 +190,7 @@ def test_upload_valid_zip_with_jpgs_succeeds(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27753")
 def test_check_image_set_exists_returns_false_for_missing(
     http_client: requests.Session,
     upload_run_id: str,
@@ -202,6 +207,7 @@ def test_check_image_set_exists_returns_false_for_missing(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27754")
 def test_list_images_in_missing_set_returns_404(
     http_client: requests.Session,
     upload_run_id: str,
@@ -219,6 +225,7 @@ def test_list_images_in_missing_set_returns_404(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27755")
 def test_upload_unsupported_archive_format_rejected(
     http_client: requests.Session, upload_run_id: str
 ) -> None:
@@ -236,6 +243,7 @@ def test_upload_unsupported_archive_format_rejected(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27756")
 def test_upload_invalid_archive_name_rejected(
     http_client: requests.Session,
 ) -> None:
@@ -251,6 +259,7 @@ def test_upload_invalid_archive_name_rejected(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27757")
 def test_upload_corrupted_archive_rejected(
     http_client: requests.Session, upload_run_id: str
 ) -> None:
@@ -267,6 +276,7 @@ def test_upload_corrupted_archive_rejected(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27758")
 def test_upload_archive_with_subdirectories_rejected(
     http_client: requests.Session,
     sample_frame_bgr,
@@ -296,6 +306,7 @@ def test_upload_archive_with_subdirectories_rejected(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27759")
 def test_upload_archive_with_no_images_rejected(
     http_client: requests.Session,
     upload_run_id: str,
@@ -319,6 +330,7 @@ def test_upload_archive_with_no_images_rejected(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27760")
 def test_upload_archive_with_disallowed_extension_rejected(
     http_client: requests.Session,
     upload_run_id: str,
@@ -340,6 +352,7 @@ def test_upload_archive_with_disallowed_extension_rejected(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27761")
 def test_upload_archive_with_mixed_extensions_rejected(
     http_client: requests.Session,
     sample_frame_bgr,
@@ -368,6 +381,7 @@ def test_upload_archive_with_mixed_extensions_rejected(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27762")
 def test_upload_archive_with_mixed_resolutions_rejected(
     http_client: requests.Session,
     sample_frame_bgr,
@@ -404,6 +418,7 @@ def test_upload_archive_with_mixed_resolutions_rejected(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27763")
 def test_upload_duplicate_image_set_rejected(
     http_client: requests.Session,
     make_zip_archive,

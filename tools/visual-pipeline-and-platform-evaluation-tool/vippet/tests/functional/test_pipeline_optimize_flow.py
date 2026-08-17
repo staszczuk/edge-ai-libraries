@@ -75,6 +75,7 @@ def _required_families_for_variant(variant_id: str) -> set[str]:
     OPTIMIZATION_CASES,
     ids=[c[0] for c in OPTIMIZATION_CASES],
 )
+@pytest.mark.test_case_key("NEX-T27800")
 def test_pipeline_optimize_flow(
     http_client: requests.Session,
     case_id: str,

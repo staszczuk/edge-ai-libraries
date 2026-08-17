@@ -20,6 +20,7 @@ VALID_DEVICE_FAMILIES: set[str] = {"CPU", "GPU", "NPU"}
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27746")
 def test_devices_endpoint_returns_devices(http_client: requests.Session) -> None:
     devices = fetch_devices(http_client)
 

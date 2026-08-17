@@ -73,6 +73,7 @@ def _start_optimization_job(session: requests.Session) -> str:
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27764")
 def test_get_performance_job_status_for_nonexistent_job_returns_404(
     http_client: requests.Session,
 ) -> None:
@@ -89,6 +90,7 @@ def test_get_performance_job_status_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27765")
 def test_stop_performance_job_for_nonexistent_job_returns_404(
     http_client: requests.Session,
 ) -> None:
@@ -105,6 +107,7 @@ def test_stop_performance_job_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27766")
 def test_get_all_performance_job_statuses_returns_list(
     http_client: requests.Session,
 ) -> None:
@@ -127,6 +130,7 @@ def test_get_all_performance_job_statuses_returns_list(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27767")
 def test_get_performance_job_summary_returns_correct_request(
     http_client: requests.Session,
 ) -> None:
@@ -149,6 +153,7 @@ def test_get_performance_job_summary_returns_correct_request(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27768")
 def test_stop_completed_performance_job_returns_409(
     http_client: requests.Session,
 ) -> None:
@@ -169,6 +174,7 @@ def test_stop_completed_performance_job_returns_409(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27769")
 def test_get_density_job_status_for_nonexistent_job_returns_404(
     http_client: requests.Session,
 ) -> None:
@@ -185,6 +191,7 @@ def test_get_density_job_status_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27770")
 def test_stop_density_job_for_nonexistent_job_returns_404(
     http_client: requests.Session,
 ) -> None:
@@ -201,6 +208,7 @@ def test_stop_density_job_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27771")
 def test_get_all_density_job_statuses_returns_list(
     http_client: requests.Session,
 ) -> None:
@@ -223,6 +231,7 @@ def test_get_all_density_job_statuses_returns_list(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27772")
 def test_get_density_job_summary_returns_correct_request(
     http_client: requests.Session,
 ) -> None:
@@ -243,6 +252,7 @@ def test_get_density_job_summary_returns_correct_request(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27773")
 def test_stop_completed_density_job_returns_409(
     http_client: requests.Session,
 ) -> None:
@@ -263,6 +273,7 @@ def test_stop_completed_density_job_returns_409(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27774")
 def test_get_optimization_job_status_for_nonexistent_job_returns_404(
     http_client: requests.Session,
 ) -> None:
@@ -279,6 +290,7 @@ def test_get_optimization_job_status_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27775")
 def test_get_all_optimization_job_statuses_returns_list(
     http_client: requests.Session,
 ) -> None:
@@ -301,6 +313,7 @@ def test_get_all_optimization_job_statuses_returns_list(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27776")
 def test_get_optimization_job_summary_returns_correct_request(
     http_client: requests.Session,
 ) -> None:

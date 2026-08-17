@@ -28,6 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27782")
 def test_uploaded_models_appear_in_models_list(
     http_client: requests.Session,
     uploaded_model_names: dict[str, str],
@@ -66,6 +67,7 @@ def test_uploaded_models_appear_in_models_list(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27783")
 def test_uploading_same_model_name_twice_is_rejected(
     http_client: requests.Session,
     uploaded_model_names: dict[str, str],
@@ -90,6 +92,7 @@ def test_uploading_same_model_name_twice_is_rejected(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27784")
 def test_uploading_with_invalid_category_rejected(
     http_client: requests.Session,
     upload_run_id: str,

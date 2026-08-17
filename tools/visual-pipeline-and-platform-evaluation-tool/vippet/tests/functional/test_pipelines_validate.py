@@ -29,6 +29,7 @@ VALIDATION_PAYLOAD: dict[str, Any] = {
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27825")
 def test_pipeline_validate_job_completes(http_client: requests.Session) -> None:
     logger.info("Submitting validation job to %s/pipelines/validate", BASE_URL)
     response = http_client.post(
@@ -94,6 +95,7 @@ def test_pipeline_validate_job_completes(http_client: requests.Session) -> None:
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27826")
 def test_validate_pipeline_with_invalid_max_runtime_returns_400(
     http_client: requests.Session,
 ) -> None:

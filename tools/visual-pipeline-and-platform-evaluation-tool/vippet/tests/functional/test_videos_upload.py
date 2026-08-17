@@ -49,6 +49,7 @@ def _unique_filename(run_id: str, base: str = "people", ext: str = "mp4") -> str
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27831")
 def test_upload_valid_mp4_h264_succeeds(
     http_client: requests.Session,
     sample_video_bytes: bytes,
@@ -86,6 +87,7 @@ def test_upload_valid_mp4_h264_succeeds(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27832")
 def test_check_video_input_exists_after_upload(
     http_client: requests.Session,
     sample_video_bytes: bytes,
@@ -113,6 +115,7 @@ def test_check_video_input_exists_after_upload(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27833")
 def test_upload_unsupported_extension_rejected(
     http_client: requests.Session, upload_run_id: str
 ) -> None:
@@ -132,6 +135,7 @@ def test_upload_unsupported_extension_rejected(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27834")
 def test_upload_duplicate_filename_rejected(
     http_client: requests.Session,
     sample_video_bytes: bytes,
@@ -155,6 +159,7 @@ def test_upload_duplicate_filename_rejected(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27835")
 def test_upload_invalid_video_payload_rejected(
     http_client: requests.Session, upload_run_id: str
 ) -> None:
@@ -173,6 +178,7 @@ def test_upload_invalid_video_payload_rejected(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27836")
 def test_upload_unsupported_container_rejected(
     http_client: requests.Session,
     sample_video_bytes: bytes,

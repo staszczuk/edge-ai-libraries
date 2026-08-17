@@ -130,6 +130,7 @@ def _attempt_performance_job(session: requests.Session, payload: JsonDict) -> Js
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", METADATA_PIPELINE_CASES, ids=METADATA_CASE_IDS)
+@pytest.mark.test_case_key("NEX-T27794")
 def test_performance_metadata_file_mode_job(
     http_client: requests.Session,
     case: PipelineCase | None,
@@ -239,6 +240,7 @@ def test_performance_metadata_file_mode_job(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27795")
 def test_performance_metadata_snapshot_for_job_with_disabled_metadata_returns_404(
     http_client: requests.Session,
 ) -> None:
@@ -289,6 +291,7 @@ def test_performance_metadata_snapshot_for_job_with_disabled_metadata_returns_40
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27796")
 def test_metadata_snapshot_for_nonexistent_job_returns_404(
     http_client: requests.Session,
 ) -> None:
@@ -305,6 +308,7 @@ def test_metadata_snapshot_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27797")
 def test_metadata_stream_for_nonexistent_job_returns_404(
     http_client: requests.Session,
 ) -> None:
@@ -321,6 +325,7 @@ def test_metadata_stream_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27798")
 def test_density_test_with_metadata_mode_file_fails(
     http_client: requests.Session,
 ) -> None:
@@ -368,6 +373,7 @@ def test_density_test_with_metadata_mode_file_fails(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27799")
 def test_performance_metadata_file_without_gvametapublish_fails(
     http_client: requests.Session,
 ) -> None:

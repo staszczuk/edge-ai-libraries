@@ -49,6 +49,7 @@ def created_pipeline_ids(http_client: requests.Session):
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27806")
 def test_get_pipelines_predefined_variants_are_read_only(
     http_client: requests.Session,
 ) -> None:
@@ -68,6 +69,7 @@ def test_get_pipelines_predefined_variants_are_read_only(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27807")
 def test_create_pipeline_with_default_variant_and_add_custom_variant(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
@@ -131,6 +133,7 @@ def test_create_pipeline_with_default_variant_and_add_custom_variant(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27808")
 def test_predefined_pipeline_metadata_can_be_updated(
     http_client: requests.Session,
 ) -> None:
@@ -174,6 +177,7 @@ def test_predefined_pipeline_metadata_can_be_updated(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27809")
 def test_predefined_pipeline_cannot_be_deleted(http_client: requests.Session) -> None:
     """Test that PREDEFINED pipelines cannot be deleted."""
     predefined_pipeline = _find_predefined_pipeline(http_client)
@@ -188,6 +192,7 @@ def test_predefined_pipeline_cannot_be_deleted(http_client: requests.Session) ->
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27810")
 def test_predefined_variants_cannot_be_modified(http_client: requests.Session) -> None:
     """Test that read-only variants from PREDEFINED pipelines cannot be modified."""
     predefined_pipeline = _find_predefined_pipeline(http_client)
@@ -212,6 +217,7 @@ def test_predefined_variants_cannot_be_modified(http_client: requests.Session) -
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27811")
 def test_predefined_variants_cannot_be_deleted(http_client: requests.Session) -> None:
     """Test that read-only variants from PREDEFINED pipelines cannot be deleted."""
     predefined_pipeline = _find_predefined_pipeline(http_client)
@@ -229,6 +235,7 @@ def test_predefined_variants_cannot_be_deleted(http_client: requests.Session) ->
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27812")
 def test_create_pipeline_with_empty_name(http_client: requests.Session) -> None:
     payload = {
         "name": "",
@@ -252,6 +259,7 @@ def test_create_pipeline_with_empty_name(http_client: requests.Session) -> None:
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27813")
 def test_create_pipeline_with_duplicate_variant_names(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
@@ -302,6 +310,7 @@ def test_create_pipeline_with_duplicate_variant_names(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27814")
 def test_update_nonexistent_pipeline(http_client: requests.Session) -> None:
     nonexistent_pipeline_id = f"does-not-exist-{uuid4().hex[:8]}"
     response = http_client.patch(
@@ -317,6 +326,7 @@ def test_update_nonexistent_pipeline(http_client: requests.Session) -> None:
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27815")
 def test_convert_advanced_to_simple_graph(http_client: requests.Session) -> None:
     """Test POST /pipelines/{id}/variants/{id}/convert-to-simple endpoint."""
     predefined_pipeline = _find_predefined_pipeline(http_client)
@@ -334,6 +344,7 @@ def test_convert_advanced_to_simple_graph(http_client: requests.Session) -> None
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27816")
 def test_convert_simple_to_advanced_graph_with_property_change(
     http_client: requests.Session,
 ) -> None:
@@ -369,6 +380,7 @@ def test_convert_simple_to_advanced_graph_with_property_change(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27817")
 def test_get_nonexistent_pipeline_returns_404(http_client: requests.Session) -> None:
     """Calls GET /pipelines/{id} with a random non-existent ID and asserts 404."""
     nonexistent_id = f"does-not-exist-{uuid4().hex[:8]}"
@@ -381,6 +393,7 @@ def test_get_nonexistent_pipeline_returns_404(http_client: requests.Session) -> 
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27818")
 def test_create_variant_for_nonexistent_pipeline_returns_404(
     http_client: requests.Session,
 ) -> None:
@@ -403,6 +416,7 @@ def test_create_variant_for_nonexistent_pipeline_returns_404(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27819")
 def test_delete_user_created_variant_succeeds(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
@@ -455,6 +469,7 @@ def test_delete_user_created_variant_succeeds(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27820")
 def test_delete_last_remaining_variant_returns_400(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
@@ -493,6 +508,7 @@ def test_delete_last_remaining_variant_returns_400(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27821")
 def test_delete_nonexistent_variant_returns_404(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
@@ -529,6 +545,7 @@ def test_delete_nonexistent_variant_returns_404(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27822")
 def test_update_user_created_variant_name_succeeds(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
@@ -572,6 +589,7 @@ def test_update_user_created_variant_name_succeeds(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27823")
 def test_update_variant_with_empty_name_returns_422(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
@@ -611,6 +629,7 @@ def test_update_variant_with_empty_name_returns_422(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27824")
 def test_optimize_variant_for_nonexistent_pipeline_returns_404(
     http_client: requests.Session,
 ) -> None:

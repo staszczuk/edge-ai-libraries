@@ -121,6 +121,7 @@ def _resolve_job_ids(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27777")
 def test_models_download_reference_models_and_track_jobs(
     http_client: requests.Session,
 ) -> None:
@@ -198,6 +199,7 @@ def test_models_download_reference_models_and_track_jobs(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27778")
 def test_models_download_404_for_unknown_model(
     http_client: requests.Session,
 ) -> None:
@@ -213,6 +215,7 @@ def test_models_download_404_for_unknown_model(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27779")
 def test_models_job_status_404_for_unknown_id(
     http_client: requests.Session,
 ) -> None:

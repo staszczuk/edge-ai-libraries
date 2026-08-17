@@ -91,6 +91,7 @@ def _attempt_job(session: requests.Session, payload: JsonDict) -> JsonDict:
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27837")
 def test_license_plate_recognition_with_output_disabled_strips_watermark(
     http_client: requests.Session,
 ) -> None:
@@ -127,6 +128,7 @@ def test_license_plate_recognition_with_output_disabled_strips_watermark(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27838")
 def test_license_plate_recognition_with_output_file_preserves_watermark(
     http_client: requests.Session,
 ) -> None:
@@ -170,6 +172,7 @@ def test_license_plate_recognition_with_output_file_preserves_watermark(
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27839")
 def test_smart_nvr_with_output_disabled_preserves_watermark(
     http_client: requests.Session,
 ) -> None:

@@ -85,6 +85,7 @@ def _assert_models_present_in_api(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27780")
 def test_models_endpoint_returns_models(http_client: requests.Session) -> None:
     """Basic schema validation: every entry returned by the API is well-formed.
 
@@ -144,6 +145,7 @@ def test_models_endpoint_returns_models(http_client: requests.Session) -> None:
 
 
 @pytest.mark.full
+@pytest.mark.test_case_key("NEX-T27781")
 def test_all_models_present_in_api(
     http_client: requests.Session,
     supported_models_config: list[ModelDict],

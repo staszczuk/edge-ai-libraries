@@ -16,6 +16,7 @@ VALID_DEVICE_TYPES: set[str] = {"USB", "NETWORK"}
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27730")
 def test_cameras_endpoint_returns_list(http_client: requests.Session) -> None:
     """Calls GET /cameras and asserts the response is 200 with a list (may be empty)."""
     response = http_client.get(f"{BASE_URL}/cameras", timeout=30)
@@ -28,6 +29,7 @@ def test_cameras_endpoint_returns_list(http_client: requests.Session) -> None:
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27731")
 def test_cameras_endpoint_returns_valid_structure(
     http_client: requests.Session,
 ) -> None:
@@ -49,6 +51,7 @@ def test_cameras_endpoint_returns_valid_structure(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27732")
 def test_get_camera_by_id_returns_correct_camera(
     http_client: requests.Session,
 ) -> None:
@@ -71,6 +74,7 @@ def test_get_camera_by_id_returns_correct_camera(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27733")
 def test_get_camera_by_nonexistent_id_returns_404(
     http_client: requests.Session,
 ) -> None:
@@ -85,6 +89,7 @@ def test_get_camera_by_nonexistent_id_returns_404(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27734")
 def test_load_camera_profiles_for_nonexistent_camera_returns_400(
     http_client: requests.Session,
 ) -> None:
@@ -104,6 +109,7 @@ def test_load_camera_profiles_for_nonexistent_camera_returns_400(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27735")
 def test_load_camera_profiles_with_invalid_camera_id_format_returns_400(
     http_client: requests.Session,
 ) -> None:

@@ -20,6 +20,7 @@ def _find_any_template(session: requests.Session) -> dict:
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27801")
 def test_get_pipeline_templates_returns_list(http_client: requests.Session) -> None:
     """Calls GET /pipeline-templates and asserts the response is 200 with a list."""
     response = http_client.get(f"{BASE_URL}/pipeline-templates", timeout=30)
@@ -37,6 +38,7 @@ def test_get_pipeline_templates_returns_list(http_client: requests.Session) -> N
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27802")
 def test_pipeline_templates_have_source_template(
     http_client: requests.Session,
 ) -> None:
@@ -54,6 +56,7 @@ def test_pipeline_templates_have_source_template(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27803")
 def test_pipeline_template_variants_are_read_only(
     http_client: requests.Session,
 ) -> None:
@@ -74,6 +77,7 @@ def test_pipeline_template_variants_are_read_only(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27804")
 def test_get_pipeline_template_by_id_returns_correct_template(
     http_client: requests.Session,
 ) -> None:
@@ -95,6 +99,7 @@ def test_get_pipeline_template_by_id_returns_correct_template(
 
 
 @pytest.mark.smoke
+@pytest.mark.test_case_key("NEX-T27805")
 def test_get_pipeline_template_by_nonexistent_id_returns_404(
     http_client: requests.Session,
 ) -> None:
