@@ -121,7 +121,7 @@ def _resolve_job_ids(
 
 
 @pytest.mark.full
-def test_models_download_reference_models_and_track_jobs(
+def test_models_download_reference_models_and_track_jobs_NEX_T27777(
     http_client: requests.Session,
 ) -> None:
     """Submit a download for two small reference models and exercise
@@ -198,7 +198,7 @@ def test_models_download_reference_models_and_track_jobs(
 
 
 @pytest.mark.full
-def test_models_download_404_for_unknown_model(
+def test_models_download_404_for_unknown_model_NEX_T27778(
     http_client: requests.Session,
 ) -> None:
     """Submitting a download for a name that is not in
@@ -213,7 +213,7 @@ def test_models_download_404_for_unknown_model(
 
 
 @pytest.mark.full
-def test_models_job_status_404_for_unknown_id(
+def test_models_job_status_404_for_unknown_id_NEX_T27779(
     http_client: requests.Session,
 ) -> None:
     """``GET /jobs/models/{id}`` and ``.../status`` must return 404 for

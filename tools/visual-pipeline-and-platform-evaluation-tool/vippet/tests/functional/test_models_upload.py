@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.mark.full
-def test_uploaded_models_appear_in_models_list(
+def test_uploaded_models_appear_in_models_list_NEX_T27782(
     http_client: requests.Session,
     uploaded_model_names: dict[str, str],
 ) -> None:
@@ -66,7 +66,7 @@ def test_uploaded_models_appear_in_models_list(
 
 
 @pytest.mark.full
-def test_uploading_same_model_name_twice_is_rejected(
+def test_uploading_same_model_name_twice_is_rejected_NEX_T27783(
     http_client: requests.Session,
     uploaded_model_names: dict[str, str],
 ) -> None:
@@ -90,7 +90,7 @@ def test_uploading_same_model_name_twice_is_rejected(
 
 
 @pytest.mark.full
-def test_uploading_with_invalid_category_rejected(
+def test_uploading_with_invalid_category_rejected_NEX_T27784(
     http_client: requests.Session,
     upload_run_id: str,
 ) -> None:

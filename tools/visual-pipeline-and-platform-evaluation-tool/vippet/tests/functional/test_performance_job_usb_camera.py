@@ -162,7 +162,7 @@ def _attempt_camera_job(
 @pytest.mark.full
 @pytest.mark.requires_camera
 @pytest.mark.parametrize("case", PIPELINE_CASES, ids=CASE_IDS)
-def test_performance_job_with_usb_camera_stays_running(
+def test_performance_job_with_usb_camera_stays_running_NEX_T27792(
     http_client: requests.Session,
     case: PipelineCase | None,
 ) -> None:
@@ -221,7 +221,7 @@ def test_performance_job_with_usb_camera_stays_running(
 @pytest.mark.full
 @pytest.mark.requires_camera
 @pytest.mark.parametrize("case", UNSUPPORTED_PIPELINE_CASES, ids=UNSUPPORTED_CASE_IDS)
-def test_performance_job_with_usb_camera_fails_for_unsupported_pipeline(
+def test_performance_job_with_usb_camera_fails_for_unsupported_pipeline_NEX_T27793(
     http_client: requests.Session,
     case: PipelineCase | None,
 ) -> None:

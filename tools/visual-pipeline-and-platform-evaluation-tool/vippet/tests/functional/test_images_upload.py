@@ -53,7 +53,7 @@ def _trunk_for(run_id: str, base: str) -> str:
 
 
 @pytest.mark.full
-def test_upload_valid_zip_with_pngs_succeeds(
+def test_upload_valid_zip_with_pngs_succeeds_NEX_T27749(
     http_client: requests.Session,
     make_zip_archive,
     upload_run_id: str,
@@ -109,7 +109,7 @@ def test_upload_valid_zip_with_pngs_succeeds(
 
 
 @pytest.mark.full
-def test_upload_valid_tar_with_pngs_succeeds(
+def test_upload_valid_tar_with_pngs_succeeds_NEX_T27750(
     http_client: requests.Session,
     make_tar_archive,
     upload_run_id: str,
@@ -133,7 +133,7 @@ def test_upload_valid_tar_with_pngs_succeeds(
 
 
 @pytest.mark.full
-def test_upload_valid_tar_gz_with_bmps_succeeds(
+def test_upload_valid_tar_gz_with_bmps_succeeds_NEX_T27751(
     http_client: requests.Session,
     make_tar_archive,
     upload_run_id: str,
@@ -157,7 +157,7 @@ def test_upload_valid_tar_gz_with_bmps_succeeds(
 
 
 @pytest.mark.full
-def test_upload_valid_zip_with_jpgs_succeeds(
+def test_upload_valid_zip_with_jpgs_succeeds_NEX_T27752(
     http_client: requests.Session,
     make_zip_archive,
     upload_run_id: str,
@@ -186,7 +186,7 @@ def test_upload_valid_zip_with_jpgs_succeeds(
 
 
 @pytest.mark.full
-def test_check_image_set_exists_returns_false_for_missing(
+def test_check_image_set_exists_returns_false_for_missing_NEX_T27753(
     http_client: requests.Session,
     upload_run_id: str,
 ) -> None:
@@ -202,7 +202,7 @@ def test_check_image_set_exists_returns_false_for_missing(
 
 
 @pytest.mark.full
-def test_list_images_in_missing_set_returns_404(
+def test_list_images_in_missing_set_returns_404_NEX_T27754(
     http_client: requests.Session,
     upload_run_id: str,
 ) -> None:
@@ -219,7 +219,7 @@ def test_list_images_in_missing_set_returns_404(
 
 
 @pytest.mark.full
-def test_upload_unsupported_archive_format_rejected(
+def test_upload_unsupported_archive_format_rejected_NEX_T27755(
     http_client: requests.Session, upload_run_id: str
 ) -> None:
     """A filename without a supported archive extension is rejected
@@ -236,7 +236,7 @@ def test_upload_unsupported_archive_format_rejected(
 
 
 @pytest.mark.full
-def test_upload_invalid_archive_name_rejected(
+def test_upload_invalid_archive_name_rejected_NEX_T27756(
     http_client: requests.Session,
 ) -> None:
     """A filename whose trunk sanitises to empty fails with
@@ -251,7 +251,7 @@ def test_upload_invalid_archive_name_rejected(
 
 
 @pytest.mark.full
-def test_upload_corrupted_archive_rejected(
+def test_upload_corrupted_archive_rejected_NEX_T27757(
     http_client: requests.Session, upload_run_id: str
 ) -> None:
     """Bytes that do not parse as a zip return ``archive_corrupted``."""
@@ -267,7 +267,7 @@ def test_upload_corrupted_archive_rejected(
 
 
 @pytest.mark.full
-def test_upload_archive_with_subdirectories_rejected(
+def test_upload_archive_with_subdirectories_rejected_NEX_T27758(
     http_client: requests.Session,
     sample_frame_bgr,
     upload_run_id: str,
@@ -296,7 +296,7 @@ def test_upload_archive_with_subdirectories_rejected(
 
 
 @pytest.mark.full
-def test_upload_archive_with_no_images_rejected(
+def test_upload_archive_with_no_images_rejected_NEX_T27759(
     http_client: requests.Session,
     upload_run_id: str,
 ) -> None:
@@ -319,7 +319,7 @@ def test_upload_archive_with_no_images_rejected(
 
 
 @pytest.mark.full
-def test_upload_archive_with_disallowed_extension_rejected(
+def test_upload_archive_with_disallowed_extension_rejected_NEX_T27760(
     http_client: requests.Session,
     upload_run_id: str,
 ) -> None:
@@ -340,7 +340,7 @@ def test_upload_archive_with_disallowed_extension_rejected(
 
 
 @pytest.mark.full
-def test_upload_archive_with_mixed_extensions_rejected(
+def test_upload_archive_with_mixed_extensions_rejected_NEX_T27761(
     http_client: requests.Session,
     sample_frame_bgr,
     upload_run_id: str,
@@ -368,7 +368,7 @@ def test_upload_archive_with_mixed_extensions_rejected(
 
 
 @pytest.mark.full
-def test_upload_archive_with_mixed_resolutions_rejected(
+def test_upload_archive_with_mixed_resolutions_rejected_NEX_T27762(
     http_client: requests.Session,
     sample_frame_bgr,
     upload_run_id: str,
@@ -404,7 +404,7 @@ def test_upload_archive_with_mixed_resolutions_rejected(
 
 
 @pytest.mark.full
-def test_upload_duplicate_image_set_rejected(
+def test_upload_duplicate_image_set_rejected_NEX_T27763(
     http_client: requests.Session,
     make_zip_archive,
     upload_run_id: str,

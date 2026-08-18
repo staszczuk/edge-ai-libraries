@@ -29,7 +29,9 @@ VALIDATION_PAYLOAD: dict[str, Any] = {
 
 
 @pytest.mark.full
-def test_pipeline_validate_job_completes(http_client: requests.Session) -> None:
+def test_pipeline_validate_job_completes_NEX_T27825(
+    http_client: requests.Session,
+) -> None:
     logger.info("Submitting validation job to %s/pipelines/validate", BASE_URL)
     response = http_client.post(
         f"{BASE_URL}/pipelines/validate",
@@ -94,7 +96,7 @@ def test_pipeline_validate_job_completes(http_client: requests.Session) -> None:
 
 
 @pytest.mark.smoke
-def test_validate_pipeline_with_invalid_max_runtime_returns_400(
+def test_validate_pipeline_with_invalid_max_runtime_returns_400_NEX_T27826(
     http_client: requests.Session,
 ) -> None:
     """Posts a pipeline validation request with max-runtime=0 to POST /pipelines/validate and asserts 400."""

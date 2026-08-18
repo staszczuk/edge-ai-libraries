@@ -13,7 +13,9 @@ VALID_APP_STATUSES: set[str] = {"starting", "initializing", "ready", "shutdown"}
 
 
 @pytest.mark.smoke
-def test_health_endpoint_returns_healthy_true(http_client: requests.Session) -> None:
+def test_health_endpoint_returns_healthy_true_NEX_T27747(
+    http_client: requests.Session,
+) -> None:
     """Calls GET /health and asserts the response is 200 with healthy=true."""
     response = http_client.get(f"{BASE_URL}/health", timeout=30)
 
@@ -28,7 +30,9 @@ def test_health_endpoint_returns_healthy_true(http_client: requests.Session) -> 
 
 
 @pytest.mark.smoke
-def test_status_endpoint_returns_valid_state(http_client: requests.Session) -> None:
+def test_status_endpoint_returns_valid_state_NEX_T27748(
+    http_client: requests.Session,
+) -> None:
     """Calls GET /status and asserts the response is 200 with a valid status value and ready flag."""
     response = http_client.get(f"{BASE_URL}/status", timeout=30)
 

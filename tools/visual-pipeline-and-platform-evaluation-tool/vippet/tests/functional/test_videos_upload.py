@@ -49,7 +49,7 @@ def _unique_filename(run_id: str, base: str = "people", ext: str = "mp4") -> str
 
 
 @pytest.mark.full
-def test_upload_valid_mp4_h264_succeeds(
+def test_upload_valid_mp4_h264_succeeds_NEX_T27831(
     http_client: requests.Session,
     sample_video_bytes: bytes,
     upload_run_id: str,
@@ -86,7 +86,7 @@ def test_upload_valid_mp4_h264_succeeds(
 
 
 @pytest.mark.full
-def test_check_video_input_exists_after_upload(
+def test_check_video_input_exists_after_upload_NEX_T27832(
     http_client: requests.Session,
     sample_video_bytes: bytes,
     upload_run_id: str,
@@ -113,7 +113,7 @@ def test_check_video_input_exists_after_upload(
 
 
 @pytest.mark.full
-def test_upload_unsupported_extension_rejected(
+def test_upload_unsupported_extension_rejected_NEX_T27833(
     http_client: requests.Session, upload_run_id: str
 ) -> None:
     """An extension outside ``UPLOAD_ALLOWED_EXTENSIONS`` is rejected
@@ -132,7 +132,7 @@ def test_upload_unsupported_extension_rejected(
 
 
 @pytest.mark.full
-def test_upload_duplicate_filename_rejected(
+def test_upload_duplicate_filename_rejected_NEX_T27834(
     http_client: requests.Session,
     sample_video_bytes: bytes,
     upload_run_id: str,
@@ -155,7 +155,7 @@ def test_upload_duplicate_filename_rejected(
 
 
 @pytest.mark.full
-def test_upload_invalid_video_payload_rejected(
+def test_upload_invalid_video_payload_rejected_NEX_T27835(
     http_client: requests.Session, upload_run_id: str
 ) -> None:
     """Bytes that cv2 cannot open as a video return ``invalid_video``."""
@@ -173,7 +173,7 @@ def test_upload_invalid_video_payload_rejected(
 
 
 @pytest.mark.full
-def test_upload_unsupported_container_rejected(
+def test_upload_unsupported_container_rejected_NEX_T27836(
     http_client: requests.Session,
     sample_video_bytes: bytes,
     upload_run_id: str,

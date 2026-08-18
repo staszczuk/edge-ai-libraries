@@ -74,7 +74,7 @@ def _attempt_performance_job(session: requests.Session, payload: JsonDict) -> Js
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", PIPELINE_CASES, ids=CASE_IDS)
-def test_performance_job_completes_successfully(
+def test_performance_job_completes_successfully_NEX_T27787(
     http_client: requests.Session,
     case: PipelineCase | None,
 ) -> None:
@@ -118,7 +118,7 @@ def test_performance_job_completes_successfully(
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", PIPELINE_CASES, ids=CASE_IDS)
-def test_performance_file_output_job_completes_successfully(
+def test_performance_file_output_job_completes_successfully_NEX_T27788(
     http_client: requests.Session,
     case: PipelineCase | None,
 ) -> None:
@@ -166,7 +166,7 @@ def test_performance_file_output_job_completes_successfully(
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", PIPELINE_CASES, ids=CASE_IDS)
-def test_performance_live_stream_output_job_completes_successfully(
+def test_performance_live_stream_output_job_completes_successfully_NEX_T27789(
     http_client: requests.Session,
     case: PipelineCase | None,
 ) -> None:
@@ -208,7 +208,7 @@ def test_performance_live_stream_output_job_completes_successfully(
 
 
 @pytest.mark.smoke
-def test_start_performance_job_with_zero_streams_returns_400(
+def test_start_performance_job_with_zero_streams_returns_400_NEX_T27790(
     http_client: requests.Session,
 ) -> None:
     """Posts a performance test request with streams=0 to POST /tests/performance and asserts 400."""
@@ -237,7 +237,7 @@ def test_start_performance_job_with_zero_streams_returns_400(
 
 
 @pytest.mark.smoke
-def test_start_performance_job_with_nonexistent_variant_returns_400(
+def test_start_performance_job_with_nonexistent_variant_returns_400_NEX_T27791(
     http_client: requests.Session,
 ) -> None:
     """Posts a performance test request referencing a non-existent variant and asserts 400."""

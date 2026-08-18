@@ -163,7 +163,7 @@ def _attempt_density_job(session: requests.Session, payload: JsonDict) -> JsonDi
     SAMPLE_MIXED_PAIRS,
     ids=[f"{a}__{b}".replace(" ", "_") for a, b in SAMPLE_MIXED_PAIRS],
 )
-def test_mixed_density_job_completes_successfully(
+def test_mixed_density_job_completes_successfully_NEX_T27742(
     http_client: requests.Session,
     name_fixed: str,
     name_grow: str,
@@ -261,7 +261,9 @@ def _variant_pipeline(pid: str, vid: str) -> JsonDict:
 
 
 @pytest.mark.smoke
-def test_mixed_density_one_spec_returns_400(http_client: requests.Session) -> None:
+def test_mixed_density_one_spec_returns_400_NEX_T27743(
+    http_client: requests.Session,
+) -> None:
     """A single spec with ``streams`` set is invalid for mixed mode."""
     payload = {
         "fps_floor": 30,
@@ -280,7 +282,9 @@ def test_mixed_density_one_spec_returns_400(http_client: requests.Session) -> No
 
 
 @pytest.mark.smoke
-def test_mixed_density_three_specs_returns_400(http_client: requests.Session) -> None:
+def test_mixed_density_three_specs_returns_400_NEX_T27744(
+    http_client: requests.Session,
+) -> None:
     """Three specs (with one ``streams`` set) are invalid for mixed mode."""
     payload = {
         "fps_floor": 30,
@@ -301,7 +305,7 @@ def test_mixed_density_three_specs_returns_400(http_client: requests.Session) ->
 
 
 @pytest.mark.smoke
-def test_mixed_density_both_specs_with_streams_returns_400(
+def test_mixed_density_both_specs_with_streams_returns_400_NEX_T27745(
     http_client: requests.Session,
 ) -> None:
     """Both specs setting ``streams`` leaves no pipeline to increment."""

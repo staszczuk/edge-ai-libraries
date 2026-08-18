@@ -28,7 +28,7 @@ _EMPTY_GRAPH: JsonDict = {"nodes": [], "edges": []}
 
 
 @pytest.mark.smoke
-def test_convert_valid_pipeline_description_to_graph(
+def test_convert_valid_pipeline_description_to_graph_NEX_T27736(
     http_client: requests.Session,
 ) -> None:
     """Posts a simple GStreamer description to POST /convert/to-graph and asserts 200 with non-empty nodes and edges."""
@@ -60,7 +60,7 @@ def test_convert_valid_pipeline_description_to_graph(
 
 
 @pytest.mark.smoke
-def test_convert_invalid_pipeline_description_returns_400(
+def test_convert_invalid_pipeline_description_returns_400_NEX_T27737(
     http_client: requests.Session,
 ) -> None:
     """Posts a syntactically invalid description to POST /convert/to-graph and asserts 400."""
@@ -79,7 +79,7 @@ def test_convert_invalid_pipeline_description_returns_400(
 
 
 @pytest.mark.smoke
-def test_convert_valid_pipeline_graph_to_description(
+def test_convert_valid_pipeline_graph_to_description_NEX_T27738(
     http_client: requests.Session,
 ) -> None:
     """Posts a valid pipeline graph to POST /convert/to-description and asserts 200 with a non-empty string."""
@@ -102,7 +102,7 @@ def test_convert_valid_pipeline_graph_to_description(
 
 
 @pytest.mark.smoke
-def test_convert_empty_graph_to_description_returns_400(
+def test_convert_empty_graph_to_description_returns_400_NEX_T27739(
     http_client: requests.Session,
 ) -> None:
     """Posts an empty nodes/edges graph to POST /convert/to-description and asserts 400."""

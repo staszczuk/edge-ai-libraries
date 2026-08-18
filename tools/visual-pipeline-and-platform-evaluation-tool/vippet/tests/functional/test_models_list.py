@@ -85,7 +85,9 @@ def _assert_models_present_in_api(
 
 
 @pytest.mark.smoke
-def test_models_endpoint_returns_models(http_client: requests.Session) -> None:
+def test_models_endpoint_returns_models_NEX_T27780(
+    http_client: requests.Session,
+) -> None:
     """Basic schema validation: every entry returned by the API is well-formed.
 
     User-uploaded models (``source == "custom"``) are excluded from the
@@ -144,7 +146,7 @@ def test_models_endpoint_returns_models(http_client: requests.Session) -> None:
 
 
 @pytest.mark.full
-def test_all_models_present_in_api(
+def test_all_models_present_in_api_NEX_T27781(
     http_client: requests.Session,
     supported_models_config: list[ModelDict],
 ) -> None:

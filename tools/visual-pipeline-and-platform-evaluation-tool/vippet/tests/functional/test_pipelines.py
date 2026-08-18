@@ -49,7 +49,7 @@ def created_pipeline_ids(http_client: requests.Session):
 
 
 @pytest.mark.smoke
-def test_get_pipelines_predefined_variants_are_read_only(
+def test_get_pipelines_predefined_variants_are_read_only_NEX_T27806(
     http_client: requests.Session,
 ) -> None:
     pipelines = fetch_pipelines(http_client)
@@ -68,7 +68,7 @@ def test_get_pipelines_predefined_variants_are_read_only(
 
 
 @pytest.mark.smoke
-def test_create_pipeline_with_default_variant_and_add_custom_variant(
+def test_create_pipeline_with_default_variant_and_add_custom_variant_NEX_T27807(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
     default_variant_name = "CPU"
@@ -131,7 +131,7 @@ def test_create_pipeline_with_default_variant_and_add_custom_variant(
 
 
 @pytest.mark.smoke
-def test_predefined_pipeline_metadata_can_be_updated(
+def test_predefined_pipeline_metadata_can_be_updated_NEX_T27808(
     http_client: requests.Session,
 ) -> None:
     """Test that PREDEFINED pipeline metadata (name, description, tags) can be updated."""
@@ -174,7 +174,9 @@ def test_predefined_pipeline_metadata_can_be_updated(
 
 
 @pytest.mark.smoke
-def test_predefined_pipeline_cannot_be_deleted(http_client: requests.Session) -> None:
+def test_predefined_pipeline_cannot_be_deleted_NEX_T27809(
+    http_client: requests.Session,
+) -> None:
     """Test that PREDEFINED pipelines cannot be deleted."""
     predefined_pipeline = _find_predefined_pipeline(http_client)
     pipeline_id = predefined_pipeline["id"]
@@ -188,7 +190,9 @@ def test_predefined_pipeline_cannot_be_deleted(http_client: requests.Session) ->
 
 
 @pytest.mark.smoke
-def test_predefined_variants_cannot_be_modified(http_client: requests.Session) -> None:
+def test_predefined_variants_cannot_be_modified_NEX_T27810(
+    http_client: requests.Session,
+) -> None:
     """Test that read-only variants from PREDEFINED pipelines cannot be modified."""
     predefined_pipeline = _find_predefined_pipeline(http_client)
     pipeline_id = predefined_pipeline["id"]
@@ -212,7 +216,9 @@ def test_predefined_variants_cannot_be_modified(http_client: requests.Session) -
 
 
 @pytest.mark.smoke
-def test_predefined_variants_cannot_be_deleted(http_client: requests.Session) -> None:
+def test_predefined_variants_cannot_be_deleted_NEX_T27811(
+    http_client: requests.Session,
+) -> None:
     """Test that read-only variants from PREDEFINED pipelines cannot be deleted."""
     predefined_pipeline = _find_predefined_pipeline(http_client)
     pipeline_id = predefined_pipeline["id"]
@@ -229,7 +235,9 @@ def test_predefined_variants_cannot_be_deleted(http_client: requests.Session) ->
 
 
 @pytest.mark.smoke
-def test_create_pipeline_with_empty_name(http_client: requests.Session) -> None:
+def test_create_pipeline_with_empty_name_NEX_T27812(
+    http_client: requests.Session,
+) -> None:
     payload = {
         "name": "",
         "description": "Should fail due to empty name",
@@ -252,7 +260,7 @@ def test_create_pipeline_with_empty_name(http_client: requests.Session) -> None:
 
 
 @pytest.mark.smoke
-def test_create_pipeline_with_duplicate_variant_names(
+def test_create_pipeline_with_duplicate_variant_names_NEX_T27813(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
     unique_name = f"functional-pipeline-dup-variants-{uuid4().hex[:8]}"
@@ -302,7 +310,9 @@ def test_create_pipeline_with_duplicate_variant_names(
 
 
 @pytest.mark.smoke
-def test_update_nonexistent_pipeline(http_client: requests.Session) -> None:
+def test_update_nonexistent_pipeline_NEX_T27814(
+    http_client: requests.Session,
+) -> None:
     nonexistent_pipeline_id = f"does-not-exist-{uuid4().hex[:8]}"
     response = http_client.patch(
         f"{BASE_URL}/pipelines/{nonexistent_pipeline_id}",
@@ -317,7 +327,9 @@ def test_update_nonexistent_pipeline(http_client: requests.Session) -> None:
 
 
 @pytest.mark.smoke
-def test_convert_advanced_to_simple_graph(http_client: requests.Session) -> None:
+def test_convert_advanced_to_simple_graph_NEX_T27815(
+    http_client: requests.Session,
+) -> None:
     """Test POST /pipelines/{id}/variants/{id}/convert-to-simple endpoint."""
     predefined_pipeline = _find_predefined_pipeline(http_client)
     pipeline_id = predefined_pipeline["id"]
@@ -334,7 +346,7 @@ def test_convert_advanced_to_simple_graph(http_client: requests.Session) -> None
 
 
 @pytest.mark.smoke
-def test_convert_simple_to_advanced_graph_with_property_change(
+def test_convert_simple_to_advanced_graph_with_property_change_NEX_T27816(
     http_client: requests.Session,
 ) -> None:
     """Test POST convert-to-advanced maps a camera source node to v4l2src."""
@@ -369,7 +381,9 @@ def test_convert_simple_to_advanced_graph_with_property_change(
 
 
 @pytest.mark.smoke
-def test_get_nonexistent_pipeline_returns_404(http_client: requests.Session) -> None:
+def test_get_nonexistent_pipeline_returns_404_NEX_T27817(
+    http_client: requests.Session,
+) -> None:
     """Calls GET /pipelines/{id} with a random non-existent ID and asserts 404."""
     nonexistent_id = f"does-not-exist-{uuid4().hex[:8]}"
     response = http_client.get(f"{BASE_URL}/pipelines/{nonexistent_id}", timeout=30)
@@ -381,7 +395,7 @@ def test_get_nonexistent_pipeline_returns_404(http_client: requests.Session) -> 
 
 
 @pytest.mark.smoke
-def test_create_variant_for_nonexistent_pipeline_returns_404(
+def test_create_variant_for_nonexistent_pipeline_returns_404_NEX_T27818(
     http_client: requests.Session,
 ) -> None:
     """Calls POST /pipelines/{id}/variants with a non-existent pipeline ID and asserts 404."""
@@ -403,7 +417,7 @@ def test_create_variant_for_nonexistent_pipeline_returns_404(
 
 
 @pytest.mark.smoke
-def test_delete_user_created_variant_succeeds(
+def test_delete_user_created_variant_succeeds_NEX_T27819(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
     """Creates a pipeline with two variants, deletes one, and asserts it no longer appears in GET response."""
@@ -455,7 +469,7 @@ def test_delete_user_created_variant_succeeds(
 
 
 @pytest.mark.smoke
-def test_delete_last_remaining_variant_returns_400(
+def test_delete_last_remaining_variant_returns_400_NEX_T27820(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
     """Creates a pipeline with a single variant, attempts to delete it, and asserts 400."""
@@ -493,7 +507,7 @@ def test_delete_last_remaining_variant_returns_400(
 
 
 @pytest.mark.smoke
-def test_delete_nonexistent_variant_returns_404(
+def test_delete_nonexistent_variant_returns_404_NEX_T27821(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
     """Calls DELETE /pipelines/{id}/variants/{id} with a valid pipeline but non-existent variant ID and asserts 404."""
@@ -529,7 +543,7 @@ def test_delete_nonexistent_variant_returns_404(
 
 
 @pytest.mark.smoke
-def test_update_user_created_variant_name_succeeds(
+def test_update_user_created_variant_name_succeeds_NEX_T27822(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
     """Creates a pipeline, patches the variant name, and asserts 200 with the updated name."""
@@ -572,7 +586,7 @@ def test_update_user_created_variant_name_succeeds(
 
 
 @pytest.mark.smoke
-def test_update_variant_with_empty_name_returns_422(
+def test_update_variant_with_empty_name_returns_422_NEX_T27823(
     http_client: requests.Session, created_pipeline_ids: list[str]
 ) -> None:
     """Calls PATCH /pipelines/{id}/variants/{id} with an empty name and asserts 422."""
@@ -611,7 +625,7 @@ def test_update_variant_with_empty_name_returns_422(
 
 
 @pytest.mark.smoke
-def test_optimize_variant_for_nonexistent_pipeline_returns_404(
+def test_optimize_variant_for_nonexistent_pipeline_returns_404_NEX_T27824(
     http_client: requests.Session,
 ) -> None:
     """Calls POST /pipelines/{id}/variants/{id}/optimize with a non-existent pipeline ID and asserts 404."""

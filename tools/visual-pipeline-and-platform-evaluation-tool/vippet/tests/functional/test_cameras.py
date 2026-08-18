@@ -16,7 +16,7 @@ VALID_DEVICE_TYPES: set[str] = {"USB", "NETWORK"}
 
 
 @pytest.mark.smoke
-def test_cameras_endpoint_returns_list(http_client: requests.Session) -> None:
+def test_cameras_endpoint_returns_list_NEX_T27730(http_client: requests.Session) -> None:
     """Calls GET /cameras and asserts the response is 200 with a list (may be empty)."""
     response = http_client.get(f"{BASE_URL}/cameras", timeout=30)
 
@@ -28,7 +28,7 @@ def test_cameras_endpoint_returns_list(http_client: requests.Session) -> None:
 
 
 @pytest.mark.smoke
-def test_cameras_endpoint_returns_valid_structure(
+def test_cameras_endpoint_returns_valid_structure_NEX_T27731(
     http_client: requests.Session,
 ) -> None:
     """Asserts every camera object returned by GET /cameras contains all required fields with a valid device_type."""
@@ -49,7 +49,7 @@ def test_cameras_endpoint_returns_valid_structure(
 
 
 @pytest.mark.smoke
-def test_get_camera_by_id_returns_correct_camera(
+def test_get_camera_by_id_returns_correct_camera_NEX_T27732(
     http_client: requests.Session,
 ) -> None:
     """Fetches the first camera from GET /cameras then retrieves it by ID and asserts the device_id matches."""
@@ -71,7 +71,7 @@ def test_get_camera_by_id_returns_correct_camera(
 
 
 @pytest.mark.smoke
-def test_get_camera_by_nonexistent_id_returns_404(
+def test_get_camera_by_nonexistent_id_returns_404_NEX_T27733(
     http_client: requests.Session,
 ) -> None:
     """Calls GET /cameras/{id} with a random non-existent ID and asserts the response is 404."""
@@ -85,7 +85,7 @@ def test_get_camera_by_nonexistent_id_returns_404(
 
 
 @pytest.mark.smoke
-def test_load_camera_profiles_for_nonexistent_camera_returns_400(
+def test_load_camera_profiles_for_nonexistent_camera_returns_400_NEX_T27734(
     http_client: requests.Session,
 ) -> None:
     """Calls POST /cameras/{id}/profiles with a valid-format but non-existent camera_id and asserts the response is 400."""
@@ -104,7 +104,7 @@ def test_load_camera_profiles_for_nonexistent_camera_returns_400(
 
 
 @pytest.mark.smoke
-def test_load_camera_profiles_with_invalid_camera_id_format_returns_400(
+def test_load_camera_profiles_with_invalid_camera_id_format_returns_400_NEX_T27735(
     http_client: requests.Session,
 ) -> None:
     """Calls POST /cameras/{id}/profiles with a malformed camera_id and asserts the response is 400."""

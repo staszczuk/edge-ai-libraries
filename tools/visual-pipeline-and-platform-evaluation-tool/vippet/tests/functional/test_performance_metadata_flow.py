@@ -130,7 +130,7 @@ def _attempt_performance_job(session: requests.Session, payload: JsonDict) -> Js
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", METADATA_PIPELINE_CASES, ids=METADATA_CASE_IDS)
-def test_performance_metadata_file_mode_job(
+def test_performance_metadata_file_mode_job_NEX_T27794(
     http_client: requests.Session,
     case: PipelineCase | None,
 ) -> None:
@@ -239,7 +239,7 @@ def test_performance_metadata_file_mode_job(
 
 
 @pytest.mark.full
-def test_performance_metadata_snapshot_for_job_with_disabled_metadata_returns_404(
+def test_performance_metadata_snapshot_for_job_with_disabled_metadata_returns_404_NEX_T27795(
     http_client: requests.Session,
 ) -> None:
     """GET metadata snapshot for an existing job whose metadata_mode is disabled returns 404.
@@ -289,7 +289,7 @@ def test_performance_metadata_snapshot_for_job_with_disabled_metadata_returns_40
 
 
 @pytest.mark.smoke
-def test_metadata_snapshot_for_nonexistent_job_returns_404(
+def test_metadata_snapshot_for_nonexistent_job_returns_404_NEX_T27796(
     http_client: requests.Session,
 ) -> None:
     """GET metadata snapshot for a completely unknown job ID returns 404."""
@@ -305,7 +305,7 @@ def test_metadata_snapshot_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.smoke
-def test_metadata_stream_for_nonexistent_job_returns_404(
+def test_metadata_stream_for_nonexistent_job_returns_404_NEX_T27797(
     http_client: requests.Session,
 ) -> None:
     """GET metadata SSE stream for a completely unknown job ID returns 404."""
@@ -321,7 +321,7 @@ def test_metadata_stream_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.smoke
-def test_density_test_with_metadata_mode_file_fails(
+def test_density_test_with_metadata_mode_file_fails_NEX_T27798(
     http_client: requests.Session,
 ) -> None:
     """Density tests do not support metadata_mode=file; the job must reach FAILED state.
@@ -368,7 +368,7 @@ def test_density_test_with_metadata_mode_file_fails(
 
 
 @pytest.mark.smoke
-def test_performance_metadata_file_without_gvametapublish_fails(
+def test_performance_metadata_file_without_gvametapublish_fails_NEX_T27799(
     http_client: requests.Session,
 ) -> None:
     """A performance job with metadata_mode=file on a pipeline without gvametapublish reaches FAILED.
