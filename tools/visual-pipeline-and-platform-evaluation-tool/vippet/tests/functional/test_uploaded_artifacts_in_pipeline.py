@@ -188,7 +188,7 @@ _VIDEO_PARAMS, _VIDEO_IDS = _video_param_or_skip()
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", _VIDEO_PARAMS, ids=_VIDEO_IDS)
-def test_uploaded_video_runs_in_performance_job(
+def test_uploaded_video_runs_in_performance_job_NEX_T27827(
     http_client: requests.Session,
     sample_video_bytes: bytes,
     upload_run_id: str,
@@ -273,7 +273,7 @@ _IMAGE_PARAMS, _IMAGE_IDS = _image_param_or_skip()
 
 @pytest.mark.full
 @pytest.mark.parametrize("case_and_ext", _IMAGE_PARAMS, ids=_IMAGE_IDS)
-def test_uploaded_image_set_runs_in_performance_job(
+def test_uploaded_image_set_runs_in_performance_job_NEX_T27828(
     http_client: requests.Session,
     make_zip_archive,
     upload_run_id: str,

@@ -91,7 +91,7 @@ def _attempt_job(session: requests.Session, payload: JsonDict) -> JsonDict:
 
 
 @pytest.mark.full
-def test_license_plate_recognition_with_output_disabled_strips_watermark(
+def test_license_plate_recognition_with_output_disabled_strips_watermark_NEX_T27837(
     http_client: requests.Session,
 ) -> None:
     """``output_mode=disabled`` on license-plate-recognition triggers the strip path.
@@ -127,7 +127,7 @@ def test_license_plate_recognition_with_output_disabled_strips_watermark(
 
 
 @pytest.mark.full
-def test_license_plate_recognition_with_output_file_preserves_watermark(
+def test_license_plate_recognition_with_output_file_preserves_watermark_NEX_T27838(
     http_client: requests.Session,
 ) -> None:
     """``output_mode=file`` on license-plate-recognition keeps the watermark.
@@ -170,7 +170,7 @@ def test_license_plate_recognition_with_output_file_preserves_watermark(
 
 
 @pytest.mark.full
-def test_smart_nvr_with_output_disabled_preserves_watermark(
+def test_smart_nvr_with_output_disabled_preserves_watermark_NEX_T27839(
     http_client: requests.Session,
 ) -> None:
     """``output_mode=disabled`` on smart-nvr keeps the watermark.

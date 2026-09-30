@@ -160,7 +160,7 @@ def _attempt_job(session: requests.Session, payload: JsonDict) -> JsonDict:
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", _PARAMS, ids=_IDS)
-def test_age_gender_pipeline_with_original_models(
+def test_age_gender_pipeline_with_original_models_NEX_T27785(
     http_client: requests.Session,
     case: PipelineCase | None,
 ) -> None:
@@ -200,7 +200,7 @@ def test_age_gender_pipeline_with_original_models(
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", _PARAMS, ids=_IDS)
-def test_age_gender_pipeline_with_uploaded_models(
+def test_age_gender_pipeline_with_uploaded_models_NEX_T27786(
     http_client: requests.Session,
     uploaded_model_names: dict[str, str],
     case: PipelineCase | None,

@@ -22,7 +22,9 @@ REQUIRED_VIDEO_KEYS: set[str] = {
 
 
 @pytest.mark.smoke
-def test_videos_endpoint_returns_valid_structure(http_client: requests.Session) -> None:
+def test_videos_endpoint_returns_valid_structure_NEX_T27829(
+    http_client: requests.Session,
+) -> None:
     videos = fetch_videos(http_client)
 
     assert videos, "Videos endpoint returned an empty list"
@@ -34,7 +36,7 @@ def test_videos_endpoint_returns_valid_structure(http_client: requests.Session) 
 
 
 @pytest.mark.smoke
-def test_all_default_recordings_are_available(
+def test_all_default_recordings_are_available_NEX_T27830(
     http_client: requests.Session,
     default_recordings_config: list[dict[str, Any]],
 ) -> None:

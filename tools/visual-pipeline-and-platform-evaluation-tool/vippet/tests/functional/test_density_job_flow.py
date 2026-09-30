@@ -77,7 +77,7 @@ def _attempt_density_job(session: requests.Session, payload: JsonDict) -> JsonDi
 
 @pytest.mark.full
 @pytest.mark.parametrize("case", PIPELINE_CASES, ids=CASE_IDS)
-def test_density_job_completes_successfully(
+def test_density_job_completes_successfully_NEX_T27740(
     http_client: requests.Session,
     case: PipelineCase | None,
 ) -> None:
@@ -120,7 +120,7 @@ def test_density_job_completes_successfully(
 
 
 @pytest.mark.smoke
-def test_start_density_job_with_nonexistent_variant_returns_400(
+def test_start_density_job_with_nonexistent_variant_returns_400_NEX_T27741(
     http_client: requests.Session,
 ) -> None:
     """Posts a density test request referencing a non-existent variant and asserts 400."""

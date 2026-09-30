@@ -75,7 +75,7 @@ def _required_families_for_variant(variant_id: str) -> set[str]:
     OPTIMIZATION_CASES,
     ids=[c[0] for c in OPTIMIZATION_CASES],
 )
-def test_pipeline_optimize_flow(
+def test_pipeline_optimize_flow_NEX_T27800(
     http_client: requests.Session,
     case_id: str,
     variant_id: str,

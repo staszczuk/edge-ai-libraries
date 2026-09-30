@@ -20,7 +20,9 @@ VALID_DEVICE_FAMILIES: set[str] = {"CPU", "GPU", "NPU"}
 
 
 @pytest.mark.smoke
-def test_devices_endpoint_returns_devices(http_client: requests.Session) -> None:
+def test_devices_endpoint_returns_devices_NEX_T27746(
+    http_client: requests.Session,
+) -> None:
     devices = fetch_devices(http_client)
 
     assert devices, "Devices endpoint returned an empty list"

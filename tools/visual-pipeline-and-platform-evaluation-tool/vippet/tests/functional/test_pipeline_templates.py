@@ -20,7 +20,9 @@ def _find_any_template(session: requests.Session) -> dict:
 
 
 @pytest.mark.smoke
-def test_get_pipeline_templates_returns_list(http_client: requests.Session) -> None:
+def test_get_pipeline_templates_returns_list_NEX_T27801(
+    http_client: requests.Session,
+) -> None:
     """Calls GET /pipeline-templates and asserts the response is 200 with a list."""
     response = http_client.get(f"{BASE_URL}/pipeline-templates", timeout=30)
 
@@ -37,7 +39,7 @@ def test_get_pipeline_templates_returns_list(http_client: requests.Session) -> N
 
 
 @pytest.mark.smoke
-def test_pipeline_templates_have_source_template(
+def test_pipeline_templates_have_source_template_NEX_T27802(
     http_client: requests.Session,
 ) -> None:
     """Asserts every object returned by GET /pipeline-templates has source=TEMPLATE."""
@@ -54,7 +56,7 @@ def test_pipeline_templates_have_source_template(
 
 
 @pytest.mark.smoke
-def test_pipeline_template_variants_are_read_only(
+def test_pipeline_template_variants_are_read_only_NEX_T27803(
     http_client: requests.Session,
 ) -> None:
     """Asserts that all variants in every template returned by GET /pipeline-templates have read_only=True."""
@@ -74,7 +76,7 @@ def test_pipeline_template_variants_are_read_only(
 
 
 @pytest.mark.smoke
-def test_get_pipeline_template_by_id_returns_correct_template(
+def test_get_pipeline_template_by_id_returns_correct_template_NEX_T27804(
     http_client: requests.Session,
 ) -> None:
     """Fetches the first template and calls GET /pipeline-templates/{id} to assert the IDs match."""
@@ -95,7 +97,7 @@ def test_get_pipeline_template_by_id_returns_correct_template(
 
 
 @pytest.mark.smoke
-def test_get_pipeline_template_by_nonexistent_id_returns_404(
+def test_get_pipeline_template_by_nonexistent_id_returns_404_NEX_T27805(
     http_client: requests.Session,
 ) -> None:
     """Calls GET /pipeline-templates/{id} with a random non-existent ID and asserts the response is 404."""

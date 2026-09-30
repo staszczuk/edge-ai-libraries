@@ -92,7 +92,7 @@ def _route_was_called(
     return False
 
 
-def test_all_api_endpoints_called_at_least_once(
+def test_all_api_endpoints_called_at_least_once_NEX_T27840(
     http_client: requests.Session,
     recorded_api_calls: set[tuple[str, str]],
 ) -> None:

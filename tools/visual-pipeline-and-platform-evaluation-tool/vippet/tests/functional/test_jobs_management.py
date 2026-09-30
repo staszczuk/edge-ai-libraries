@@ -74,7 +74,7 @@ def _start_optimization_job(session: requests.Session) -> str:
 
 
 @pytest.mark.smoke
-def test_get_performance_job_status_for_nonexistent_job_returns_404(
+def test_get_performance_job_status_for_nonexistent_job_returns_404_NEX_T27764(
     http_client: requests.Session,
 ) -> None:
     """Calls GET /jobs/tests/performance/{job_id}/status with a non-existent job ID and asserts 404."""
@@ -90,7 +90,7 @@ def test_get_performance_job_status_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.smoke
-def test_stop_performance_job_for_nonexistent_job_returns_404(
+def test_stop_performance_job_for_nonexistent_job_returns_404_NEX_T27765(
     http_client: requests.Session,
 ) -> None:
     """Calls DELETE /jobs/tests/performance/{job_id} with a non-existent job ID and asserts 404."""
@@ -106,7 +106,7 @@ def test_stop_performance_job_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.full
-def test_get_all_performance_job_statuses_returns_list(
+def test_get_all_performance_job_statuses_returns_list_NEX_T27766(
     http_client: requests.Session,
 ) -> None:
     """After submitting a performance job, GET /jobs/tests/performance/status returns a non-empty list containing the job."""
@@ -129,7 +129,7 @@ def test_get_all_performance_job_statuses_returns_list(
 
 
 @pytest.mark.full
-def test_get_performance_job_summary_returns_correct_request(
+def test_get_performance_job_summary_returns_correct_request_NEX_T27767(
     http_client: requests.Session,
 ) -> None:
     """After submitting a performance job, GET /jobs/tests/performance/{job_id} echoes back the original request."""
@@ -152,7 +152,7 @@ def test_get_performance_job_summary_returns_correct_request(
 
 
 @pytest.mark.full
-def test_stop_completed_performance_job_returns_409(
+def test_stop_completed_performance_job_returns_409_NEX_T27768(
     http_client: requests.Session,
 ) -> None:
     """After a performance job completes, DELETE /jobs/tests/performance/{job_id} returns 409 (not running)."""
@@ -172,7 +172,7 @@ def test_stop_completed_performance_job_returns_409(
 
 
 @pytest.mark.smoke
-def test_get_density_job_status_for_nonexistent_job_returns_404(
+def test_get_density_job_status_for_nonexistent_job_returns_404_NEX_T27769(
     http_client: requests.Session,
 ) -> None:
     """Calls GET /jobs/tests/density/{job_id}/status with a non-existent job ID and asserts 404."""
@@ -188,7 +188,7 @@ def test_get_density_job_status_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.smoke
-def test_stop_density_job_for_nonexistent_job_returns_404(
+def test_stop_density_job_for_nonexistent_job_returns_404_NEX_T27770(
     http_client: requests.Session,
 ) -> None:
     """Calls DELETE /jobs/tests/density/{job_id} with a non-existent job ID and asserts 404."""
@@ -204,7 +204,7 @@ def test_stop_density_job_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.full
-def test_get_all_density_job_statuses_returns_list(
+def test_get_all_density_job_statuses_returns_list_NEX_T27771(
     http_client: requests.Session,
 ) -> None:
     """After submitting a density job, GET /jobs/tests/density/status returns a non-empty list containing the job."""
@@ -227,7 +227,7 @@ def test_get_all_density_job_statuses_returns_list(
 
 
 @pytest.mark.full
-def test_get_density_job_summary_returns_correct_request(
+def test_get_density_job_summary_returns_correct_request_NEX_T27772(
     http_client: requests.Session,
 ) -> None:
     """After submitting a density job, GET /jobs/tests/density/{job_id} echoes back the original request."""
@@ -248,7 +248,7 @@ def test_get_density_job_summary_returns_correct_request(
 
 
 @pytest.mark.full
-def test_stop_completed_density_job_returns_409(
+def test_stop_completed_density_job_returns_409_NEX_T27773(
     http_client: requests.Session,
 ) -> None:
     """After a density job completes, DELETE /jobs/tests/density/{job_id} returns 409 (not running)."""
@@ -268,7 +268,7 @@ def test_stop_completed_density_job_returns_409(
 
 
 @pytest.mark.smoke
-def test_get_optimization_job_status_for_nonexistent_job_returns_404(
+def test_get_optimization_job_status_for_nonexistent_job_returns_404_NEX_T27774(
     http_client: requests.Session,
 ) -> None:
     """Calls GET /jobs/optimization/{job_id}/status with a non-existent job ID and asserts 404."""
@@ -284,7 +284,7 @@ def test_get_optimization_job_status_for_nonexistent_job_returns_404(
 
 
 @pytest.mark.full
-def test_get_all_optimization_job_statuses_returns_list(
+def test_get_all_optimization_job_statuses_returns_list_NEX_T27775(
     http_client: requests.Session,
 ) -> None:
     """After an optimization job, GET /jobs/optimization/status returns a non-empty list containing the job."""
@@ -307,7 +307,7 @@ def test_get_all_optimization_job_statuses_returns_list(
 
 
 @pytest.mark.full
-def test_get_optimization_job_summary_returns_correct_request(
+def test_get_optimization_job_summary_returns_correct_request_NEX_T27776(
     http_client: requests.Session,
 ) -> None:
     """After an optimization job, GET /jobs/optimization/{job_id} echoes back the original request."""
