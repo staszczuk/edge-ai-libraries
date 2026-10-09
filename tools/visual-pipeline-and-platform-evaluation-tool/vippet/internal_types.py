@@ -11,7 +11,7 @@ rather than references, making them easier to work with in the execution layer.
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
 from graph import Graph
 
@@ -207,10 +207,12 @@ class InternalCameraType(str, Enum):
     Values:
         USB: USB camera connected directly to the system.
         NETWORK: Network camera accessible via IP protocols.
+        GENICAM: GenICam machine vision camera (GigE Vision / USB3 Vision).
     """
 
     USB = "USB"
     NETWORK = "NETWORK"
+    GENICAM = "GENICAM"
 
 
 class InternalOutputMode(str, Enum):
@@ -1049,21 +1051,41 @@ class InternalNetworkCameraDetails:
 
 
 @dataclass
+class InternalGenICamCameraDetails:
+    """
+    Internal GenICam camera details discovered via Aravis.
+
+    Attributes:
+        aravis_id: Aravis device identifier.
+        protocol: Transport protocol ("GigEVision" or "USB3Vision").
+        address: IP address for GigE Vision cameras, None for USB3 Vision.
+    """
+
+    aravis_id: str
+    protocol: str
+    address: str | None = None
+
+
+@dataclass
 class InternalCamera:
     """
-    Internal camera device information supporting both USB and network cameras.
+    Internal camera device information supporting USB, network and GenICam cameras.
 
     Attributes:
         device_id: Unique identifier for the camera.
         device_name: Human-readable camera name.
-        device_type: Type of camera (USB or NETWORK).
+        device_type: Type of camera (USB, NETWORK or GENICAM).
         details: Type-specific camera details.
     """
 
     device_id: str
     device_name: str
     device_type: InternalCameraType
-    details: Union[InternalUSBCameraDetails, InternalNetworkCameraDetails]
+    details: (
+        InternalUSBCameraDetails
+        | InternalNetworkCameraDetails
+        | InternalGenICamCameraDetails
+    )
 
 
 @dataclass

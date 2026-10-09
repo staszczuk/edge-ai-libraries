@@ -9,6 +9,7 @@ import httpx
 
 from internal_types import (
     InternalCameraType,
+    InternalGenICamCameraDetails,
     InternalNetworkCameraDetails,
     InternalUSBCameraDetails,
 )
@@ -35,6 +36,26 @@ NET_CAMERA = {
         "port": 80,
         "profiles": [],
         "best_profile": None,
+    },
+}
+GIGE_CAMERA = {
+    "device_id": "genicam-camera-basler-aca1300-22gm-21234567",
+    "device_name": "Basler-acA1300-22gm-21234567",
+    "device_type": "GENICAM",
+    "details": {
+        "aravis_id": "Basler-acA1300-22gm-21234567",
+        "protocol": "GigEVision",
+        "address": "192.168.1.50",
+    },
+}
+USB3_VISION_CAMERA = {
+    "device_id": "genicam-camera-fake-usb3-1",
+    "device_name": "Fake-USB3-1",
+    "device_type": "GENICAM",
+    "details": {
+        "aravis_id": "Fake-USB3-1",
+        "protocol": "USB3Vision",
+        "address": None,
     },
 }
 MAIN_PROFILE = {
@@ -99,6 +120,34 @@ class TestCameraManager(unittest.TestCase):
         self.assertEqual(usb.best_capture.fourcc, "MJPG")
         net = cast(InternalNetworkCameraDetails, cameras[1].details)
         self.assertEqual((net.ip, net.port, net.profiles), ("192.168.1.100", 80, []))
+
+    def test_discover_all_cameras_parses_genicam_sensors(self):
+        self.sensors = [USB_CAMERA, GIGE_CAMERA, USB3_VISION_CAMERA]
+
+        cameras = self.manager.discover_all_cameras()
+
+        self.assertEqual(
+            [c.device_type for c in cameras],
+            [
+                InternalCameraType.USB,
+                InternalCameraType.GENICAM,
+                InternalCameraType.GENICAM,
+            ],
+        )
+        self.assertEqual(
+            cameras[1].details,
+            InternalGenICamCameraDetails(
+                aravis_id="Basler-acA1300-22gm-21234567",
+                protocol="GigEVision",
+                address="192.168.1.50",
+            ),
+        )
+        self.assertEqual(
+            cameras[2].details,
+            InternalGenICamCameraDetails(
+                aravis_id="Fake-USB3-1", protocol="USB3Vision", address=None
+            ),
+        )
 
     def test_discover_all_cameras_returns_cache_when_service_unavailable(self):
         self.manager.discover_all_cameras()

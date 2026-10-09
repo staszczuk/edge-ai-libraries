@@ -1,5 +1,6 @@
 import {
   type Camera,
+  type GenICamCameraDetails,
   type NetworkCameraDetails,
   type UsbCameraDetails,
   useGetCamerasQuery,
@@ -27,6 +28,25 @@ const getNetworkDetails = (camera: Camera): NetworkCameraDetails | null =>
   camera.device_type === "NETWORK"
     ? (camera.details as NetworkCameraDetails)
     : null;
+
+const getGenicamDetails = (camera: Camera): GenICamCameraDetails | null =>
+  camera.device_type === "GENICAM"
+    ? (camera.details as GenICamCameraDetails)
+    : null;
+
+const formatCameraSource = (camera: Camera): string => {
+  const networkDetails = getNetworkDetails(camera);
+  if (networkDetails) {
+    return `${networkDetails.ip}:${networkDetails.port}`;
+  }
+
+  const genicamDetails = getGenicamDetails(camera);
+  if (genicamDetails) {
+    return genicamDetails.address ?? genicamDetails.aravis_id;
+  }
+
+  return getUsbDetails(camera)?.device_path ?? "-";
+};
 
 const formatCameraResolution = (camera: Camera): string => {
   if (camera.device_type === "NETWORK") {
@@ -100,7 +120,6 @@ export const Cameras = () => {
             {resolvedCameras.map((camera) => {
               const isNetworkCamera = camera.device_type === "NETWORK";
               const networkDetails = getNetworkDetails(camera);
-              const usbDetails = getUsbDetails(camera);
 
               return (
                 <TableRow key={camera.device_id}>
@@ -112,11 +131,7 @@ export const Cameras = () => {
                       {camera.device_type}
                     </Badge>
                   </TableCell>
-                  <TableCell>
-                    {isNetworkCamera
-                      ? `${networkDetails?.ip ?? "-"}:${networkDetails?.port ?? "-"}`
-                      : (usbDetails?.device_path ?? "-")}
-                  </TableCell>
+                  <TableCell>{formatCameraSource(camera)}</TableCell>
                   <TableCell>{formatCameraResolution(camera)}</TableCell>
                   <TableCell>{formatCameraFramerate(camera)}</TableCell>
                   <TableCell>

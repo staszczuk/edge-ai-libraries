@@ -8,6 +8,7 @@ import api.api_schemas as schemas
 from internal_types import (
     InternalCamera,
     InternalCameraProfileInfo,
+    InternalGenICamCameraDetails,
     InternalNetworkCameraDetails,
     InternalUSBCameraDetails,
 )
@@ -35,15 +36,15 @@ logger = logging.getLogger("api.routes.cameras")
 )
 def get_cameras():
     """
-    **Get all cameras (both USB and network) available to the system.**
+    **Get all cameras (USB, network and GenICam) available to the system.**
 
     ## Operation
-    Combines results from both USB and network camera discovery to provide
-    a comprehensive list of all available camera devices.
+    Returns the cameras discovered by the sensor-manager service.
 
     1. Discover all USB cameras using v4l2-ctl or device scanning
     2. Discover all network cameras using various protocols
-    3. Combine and return the complete list
+    3. Discover all GenICam cameras (GigE Vision / USB3 Vision) using Aravis
+    4. Combine and return the complete list
 
     ## Parameters
     - **Path/Query parameters:** None
@@ -52,7 +53,7 @@ def get_cameras():
 
     | Code | Description |
     |------|-------------|
-    | 200 | JSON array of Camera objects (USB and network cameras) |
+    | 200 | JSON array of Camera objects (USB, network and GenICam cameras) |
     | 500 | `MessageResponse` - Unexpected error during discovery |
 
     ## Conditions
@@ -87,6 +88,16 @@ def get_cameras():
           "ip": "192.168.1.100",
           "port": 80,
           "profiles": []
+        }
+      },
+      {
+        "device_id": "genicam-camera-basler-aca1300-22gm-21234567",
+        "device_name": "Basler-acA1300-22gm-21234567",
+        "device_type": "GENICAM",
+        "details": {
+          "aravis_id": "Basler-acA1300-22gm-21234567",
+          "protocol": "GigEVision",
+          "address": "192.168.1.50"
         }
       }
     ]
@@ -358,7 +369,7 @@ def _internal_camera_to_api(camera: InternalCamera) -> schemas.Camera:
     """
     Convert InternalCamera to API Camera.
 
-    Converts internal camera details (USB or network) to the
+    Converts internal camera details (USB, network or GenICam) to the
     corresponding API detail type.
 
     Args:
@@ -376,11 +387,13 @@ def _internal_camera_to_api(camera: InternalCamera) -> schemas.Camera:
                 height=camera.details.best_capture.height,
                 fps=camera.details.best_capture.fps,
             )
-        api_details: schemas.USBCameraDetails | schemas.NetworkCameraDetails = (
-            schemas.USBCameraDetails(
-                device_path=camera.details.device_path,
-                best_capture=best_capture,
-            )
+        api_details: (
+            schemas.USBCameraDetails
+            | schemas.NetworkCameraDetails
+            | schemas.GenICamCameraDetails
+        ) = schemas.USBCameraDetails(
+            device_path=camera.details.device_path,
+            best_capture=best_capture,
         )
     elif isinstance(camera.details, InternalNetworkCameraDetails):
         api_profiles = [_internal_profile_to_api(p) for p in camera.details.profiles]
@@ -392,6 +405,12 @@ def _internal_camera_to_api(camera: InternalCamera) -> schemas.Camera:
             port=camera.details.port,
             profiles=api_profiles,
             best_profile=best_profile,
+        )
+    elif isinstance(camera.details, InternalGenICamCameraDetails):
+        api_details = schemas.GenICamCameraDetails(
+            aravis_id=camera.details.aravis_id,
+            protocol=camera.details.protocol,
+            address=camera.details.address,
         )
     else:
         raise ValueError(f"Unknown camera details type: {type(camera.details)}")

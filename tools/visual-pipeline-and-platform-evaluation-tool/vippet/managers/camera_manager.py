@@ -4,8 +4,8 @@
 """
 CameraManager: client of the sensor-manager microservice.
 
-Camera discovery (USB and ONVIF) and ONVIF profile loading are performed by
-sensor-manager. This manager caches the last known camera list for lookups
+Camera discovery (USB, ONVIF and GenICam) and ONVIF profile loading are
+performed by sensor-manager. This manager caches the last known camera list for lookups
 done while building pipelines, and keeps ONVIF credentials supplied by the
 user in memory only, so they can be injected into ``rtspsrc`` elements.
 """
@@ -22,6 +22,7 @@ from internal_types import (
     InternalCamera,
     InternalCameraProfileInfo,
     InternalCameraType,
+    InternalGenICamCameraDetails,
     InternalNetworkCameraDetails,
     InternalUSBCameraDetails,
     InternalV4L2BestCapture,
@@ -61,20 +62,29 @@ def _profile_from_api(data: Dict[str, Any]) -> InternalCameraProfileInfo:
 def _camera_from_api(data: Dict[str, Any]) -> InternalCamera:
     device_type = InternalCameraType(data["device_type"])
     details = data["details"]
+    camera_details: (
+        InternalUSBCameraDetails
+        | InternalNetworkCameraDetails
+        | InternalGenICamCameraDetails
+    )
     if device_type == InternalCameraType.USB:
         best_capture = details.get("best_capture")
-        camera_details: InternalUSBCameraDetails | InternalNetworkCameraDetails = (
-            InternalUSBCameraDetails(
-                device_path=details["device_path"],
-                best_capture=InternalV4L2BestCapture(
-                    fourcc=best_capture["fourcc"],
-                    width=int(best_capture["width"]),
-                    height=int(best_capture["height"]),
-                    fps=float(best_capture["fps"]),
-                )
-                if best_capture
-                else None,
+        camera_details = InternalUSBCameraDetails(
+            device_path=details["device_path"],
+            best_capture=InternalV4L2BestCapture(
+                fourcc=best_capture["fourcc"],
+                width=int(best_capture["width"]),
+                height=int(best_capture["height"]),
+                fps=float(best_capture["fps"]),
             )
+            if best_capture
+            else None,
+        )
+    elif device_type == InternalCameraType.GENICAM:
+        camera_details = InternalGenICamCameraDetails(
+            aravis_id=details["aravis_id"],
+            protocol=details["protocol"],
+            address=details.get("address"),
         )
     else:
         best_profile = details.get("best_profile")

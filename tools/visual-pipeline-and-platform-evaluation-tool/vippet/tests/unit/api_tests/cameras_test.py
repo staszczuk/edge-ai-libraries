@@ -11,6 +11,7 @@ from internal_types import (
     InternalUSBCameraDetails,
     InternalNetworkCameraDetails,
     InternalCameraProfileInfo,
+    InternalGenICamCameraDetails,
 )
 
 
@@ -75,6 +76,20 @@ class TestCamerasAPI(unittest.TestCase):
                 port=port,
                 profiles=internal_profiles,
                 best_profile=internal_profiles[0] if internal_profiles else None,
+            ),
+        )
+
+    @staticmethod
+    def _make_genicam_camera(device_id, aravis_id, protocol, address=None):
+        """Helper method to create an InternalCamera with GenICam details."""
+        return InternalCamera(
+            device_id=device_id,
+            device_name=aravis_id,
+            device_type=InternalCameraType.GENICAM,
+            details=InternalGenICamCameraDetails(
+                aravis_id=aravis_id,
+                protocol=protocol,
+                address=address,
             ),
         )
 
@@ -191,6 +206,48 @@ class TestCamerasAPI(unittest.TestCase):
         self.assertEqual(data[1]["device_type"], "NETWORK")
 
     @patch("api.routes.cameras.CameraManager")
+    def test_get_cameras_returns_genicam_cameras(self, mock_camera_manager_cls):
+        """
+        Test GET /cameras returns GigE Vision and USB3 Vision GenICam cameras.
+        """
+        # Arrange
+        mock_cameras = [
+            self._make_genicam_camera(
+                "genicam-camera-basler-aca1300-22gm-21234567",
+                "Basler-acA1300-22gm-21234567",
+                "GigEVision",
+                "192.168.1.50",
+            ),
+            self._make_genicam_camera(
+                "genicam-camera-fake-usb3-1", "Fake-USB3-1", "USB3Vision"
+            ),
+        ]
+        mock_manager = MagicMock()
+        mock_manager.discover_all_cameras.return_value = mock_cameras
+        mock_camera_manager_cls.return_value = mock_manager
+
+        # Act
+        response = self.client.get("/cameras")
+
+        # Assert
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(len(data), 2)
+        self.assertEqual(data[0]["device_type"], "GENICAM")
+        self.assertEqual(
+            data[0]["details"],
+            {
+                "aravis_id": "Basler-acA1300-22gm-21234567",
+                "protocol": "GigEVision",
+                "address": "192.168.1.50",
+            },
+        )
+        self.assertEqual(
+            data[1]["details"],
+            {"aravis_id": "Fake-USB3-1", "protocol": "USB3Vision", "address": None},
+        )
+
+    @patch("api.routes.cameras.CameraManager")
     def test_get_cameras_handles_exception(self, mock_camera_manager_cls):
         """
         Test GET /cameras returns 500 when discovery fails unexpectedly.
@@ -278,6 +335,31 @@ class TestCamerasAPI(unittest.TestCase):
         mock_manager.get_camera_by_id.assert_called_once_with(
             "network-camera-192.168.1.100-80"
         )
+
+    @patch("api.routes.cameras.CameraManager")
+    def test_get_camera_returns_genicam_camera(self, mock_camera_manager_cls):
+        """
+        Test GET /cameras/{camera_id} returns GenICam camera when found.
+        """
+        # Arrange
+        camera_id = "genicam-camera-basler-aca1300-22gm-21234567"
+        mock_manager = MagicMock()
+        mock_manager.get_camera_by_id.return_value = self._make_genicam_camera(
+            camera_id, "Basler-acA1300-22gm-21234567", "GigEVision", "192.168.1.50"
+        )
+        mock_camera_manager_cls.return_value = mock_manager
+
+        # Act
+        response = self.client.get(f"/cameras/{camera_id}")
+
+        # Assert
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["device_id"], camera_id)
+        self.assertEqual(data["device_type"], "GENICAM")
+        self.assertEqual(data["details"]["protocol"], "GigEVision")
+        self.assertEqual(data["details"]["address"], "192.168.1.50")
+        mock_manager.get_camera_by_id.assert_called_once_with(camera_id)
 
     @patch("api.routes.cameras.CameraManager")
     def test_get_camera_returns_404_when_not_found(self, mock_camera_manager_cls):

@@ -49,4 +49,14 @@ export const mockCameras: Camera[] = [
       best_profile: null,
     },
   },
+  {
+    device_id: "genicam-camera-basler-aca1300-22gm-21234567",
+    device_name: "Basler-acA1300-22gm-21234567",
+    device_type: "GENICAM",
+    details: {
+      aravis_id: "Basler-acA1300-22gm-21234567",
+      protocol: "GigEVision",
+      address: "192.168.1.50",
+    },
+  },
 ];

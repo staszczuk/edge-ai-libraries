@@ -1647,7 +1647,7 @@ export type ImageInfo = {
   /** Image height in pixels, or null if it could not be read. */
   height?: number | null;
 };
-export type CameraType = "USB" | "NETWORK";
+export type CameraType = "USB" | "NETWORK" | "GENICAM";
 export type V4L2BestCapture = {
   fourcc: string;
   width: number;
@@ -1672,11 +1672,16 @@ export type NetworkCameraDetails = {
   profiles: CameraProfileInfo[];
   best_profile?: CameraProfileInfo | null;
 };
+export type GenICamCameraDetails = {
+  aravis_id: string;
+  protocol: string;
+  address?: string | null;
+};
 export type Camera = {
   device_id: string;
   device_name: string;
   device_type: CameraType;
-  details: UsbCameraDetails | NetworkCameraDetails;
+  details: UsbCameraDetails | NetworkCameraDetails | GenICamCameraDetails;
 };
 export type CameraAuthResponse = {
   /** Camera object with populated ONVIF profiles after successful authentication. */

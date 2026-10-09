@@ -337,6 +337,7 @@ class CameraType(str, Enum):
     ## Values
     - `USB` - USB camera connected directly to the system
     - `NETWORK` - Network camera accessible via IP protocols
+    - `GENICAM` - GenICam machine vision camera (GigE Vision / USB3 Vision)
 
     ### Example
     ```json
@@ -346,6 +347,7 @@ class CameraType(str, Enum):
 
     USB = "USB"
     NETWORK = "NETWORK"
+    GENICAM = "GENICAM"
 
 
 class HealthResponse(BaseModel):
@@ -3069,8 +3071,8 @@ class CameraDetails(BaseModel):
     """
     **Base class for camera-specific details.**
 
-    This is an abstract base class. Use USBCameraDetails or NetworkCameraDetails
-    for specific camera types.
+    This is an abstract base class. Use USBCameraDetails, NetworkCameraDetails
+    or GenICamCameraDetails for specific camera types.
     """
 
     pass
@@ -3155,18 +3157,34 @@ class NetworkCameraDetails(CameraDetails):
     best_profile: Optional["CameraProfileInfo"] = None
 
 
+class GenICamCameraDetails(CameraDetails):
+    """
+    **GenICam machine vision camera details discovered via Aravis.**
+
+    ## Attributes
+    - `aravis_id` - Aravis device identifier
+    - `protocol` - Transport protocol (`GigEVision` or `USB3Vision`)
+    - `address` - IP address for GigE Vision cameras, null for USB3 Vision cameras
+    """
+
+    aravis_id: str
+    protocol: str
+    address: str | None = None
+
+
 class Camera(BaseModel):
     """
-    **Camera device information supporting both USB and network cameras.**
+    **Camera device information supporting USB, network and GenICam cameras.**
 
     Common attributes apply to all camera types. Type-specific details are stored
-    in the details field which contains either USBCameraDetails or NetworkCameraDetails.
+    in the details field which contains USBCameraDetails, NetworkCameraDetails
+    or GenICamCameraDetails.
 
     ## Attributes
     - `device_id` - Unique identifier for the camera
     - `device_name` - Human-readable camera name
-    - `device_type` - Type of camera (USB or NETWORK)
-    - `details` - Type-specific camera details (USBCameraDetails for USB, NetworkCameraDetails for NETWORK)
+    - `device_type` - Type of camera (USB, NETWORK or GENICAM)
+    - `details` - Type-specific camera details (USBCameraDetails for USB, NetworkCameraDetails for NETWORK, GenICamCameraDetails for GENICAM)
 
     ### Example (USB Camera)
     ```json
@@ -3216,12 +3234,26 @@ class Camera(BaseModel):
       }
     }
     ```
+
+    ### Example (GenICam Camera)
+    ```json
+    {
+      "device_id": "genicam-camera-basler-aca1300-22gm-21234567",
+      "device_name": "Basler-acA1300-22gm-21234567",
+      "device_type": "GENICAM",
+      "details": {
+        "aravis_id": "Basler-acA1300-22gm-21234567",
+        "protocol": "GigEVision",
+        "address": "192.168.1.50"
+      }
+    }
+    ```
     """
 
     device_id: str
     device_name: str
     device_type: CameraType
-    details: Union[USBCameraDetails, NetworkCameraDetails]
+    details: Union[USBCameraDetails, NetworkCameraDetails, GenICamCameraDetails]
 
 
 class CameraProfilesRequest(BaseModel):

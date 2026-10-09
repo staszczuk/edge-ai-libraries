@@ -3,8 +3,9 @@
 This article explains how to use the Camera module in ViPPET to detect and connect to cameras.
 From the left-side menu, choose **Cameras** to open the camera management page.
 
-ViPPET supports two types of cameras: USB cameras and network cameras. USB cameras are detected
-automatically via plug-and-play, while network cameras are discovered using the ONVIF standard.
+ViPPET supports three types of cameras: USB cameras, network cameras, and GenICam machine vision
+cameras. USB cameras are detected automatically via plug-and-play, network cameras are discovered
+using the ONVIF standard, and GenICam cameras are discovered using Aravis.
 
 ![Cameras](../../_assets/ViPPET-UI-Cameras-light.png)
 
@@ -55,7 +56,16 @@ To authorize a camera:
 
 ## GigE Vision Cameras
 
-*To be addressed in the 2026.2 release.*
+GenICam-compliant machine vision cameras (GigE Vision) are discovered by the Sensor Manager
+service using Aravis and listed in the *Cameras* tab with the `GENICAM` type. The *Source* column
+shows the camera IP address. No authorization is required.
+
+Connect the camera to the same subnet as the host machine running ViPPET, so it can be reached by
+GigE Vision discovery.
+
+> [!NOTE]
+> GenICam cameras are currently listed for discovery only and cannot be selected as pipeline
+> input sources.
 
 ## Use cameras in pipelines as input sources
 

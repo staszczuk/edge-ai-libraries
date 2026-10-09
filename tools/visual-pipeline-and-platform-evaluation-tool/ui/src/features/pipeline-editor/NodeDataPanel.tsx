@@ -82,9 +82,15 @@ const NodeDataPanel = ({
 }: NodeDataPanelProps) => {
   const [editableData, setEditableData] = useState<Record<string, unknown>>({});
   const models = useAppSelector(selectModels);
-  const { data: cameras = [] } = useGetCamerasQuery();
+  const { data: allCameras = [] } = useGetCamerasQuery();
   const { data: videos = [] } = useGetVideosQuery();
   const { data: imageSets = [] } = useGetImageSetsQuery();
+
+  // GenICam cameras are discovery-only for now and cannot be used as pipeline sources.
+  const cameras = useMemo(
+    () => allCameras.filter((camera) => camera.device_type !== "GENICAM"),
+    [allCameras],
+  );
 
   const cameraOptions = useMemo<SelectOption[]>(
     () =>
