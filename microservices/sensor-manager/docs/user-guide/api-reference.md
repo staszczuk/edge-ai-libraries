@@ -9,8 +9,10 @@ Returns `{"healthy": true}` when the service is running.
 
 ## GET /sensors
 
-Returns all USB cameras (enumerated on each request) and ONVIF cameras (from the latest
-WS-Discovery sweep). ONVIF profiles loaded earlier are preserved.
+Returns all USB cameras (enumerated on each request), ONVIF cameras (from the latest
+WS-Discovery sweep) and GenICam cameras (enumerated on each request with Aravis
+`arv-tool-0.8`). ONVIF profiles loaded earlier are preserved. For GenICam cameras, `protocol`
+is `GigEVision` when the device reports an IP address and `USB3Vision` otherwise.
 
 ```json
 [
@@ -28,6 +30,12 @@ WS-Discovery sweep). ONVIF profiles loaded earlier are preserved.
     "device_name": "ONVIF Camera 192.168.1.100",
     "device_type": "NETWORK",
     "details": {"ip": "192.168.1.100", "port": 80, "profiles": [], "best_profile": null}
+  },
+  {
+    "device_id": "genicam-camera-basler-21234567",
+    "device_name": "Basler-21234567",
+    "device_type": "GENICAM",
+    "details": {"aravis_id": "Basler-21234567", "protocol": "GigEVision", "address": "192.168.1.10"}
   }
 ]
 ```

@@ -71,6 +71,7 @@ def test_app_lifespan_creates_camera_manager(monkeypatch):
         ),
     )
     monkeypatch.setattr("src.core.usb.USBCameraDiscovery.discover_cameras", lambda self: [])
+    monkeypatch.setattr("src.core.genicam.GenICamCameraDiscovery.discover_cameras", lambda self: [])
 
     with TestClient(main.app) as client:
         assert client.get("/api/v1/health").json() == {"healthy": True}

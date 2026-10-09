@@ -12,6 +12,7 @@ from src.core.camera_manager import CameraManager, CameraNotFoundError
 from src.core.internal_types import (
     InternalCamera,
     InternalCameraProfileInfo,
+    InternalGenICamCameraDetails,
     InternalNetworkCameraDetails,
     InternalUSBCameraDetails,
 )
@@ -25,8 +26,8 @@ SensorId = Annotated[
     Path(
         max_length=schemas.SENSOR_ID_MAX_LENGTH,
         pattern=schemas.SENSOR_ID_PATTERN,
-        description="Sensor identifier, e.g. `usb-camera-integrated-camera-0` or "
-        "`network-camera-192.168.1.100-80`.",
+        description="Sensor identifier, e.g. `usb-camera-integrated-camera-0`, "
+        "`network-camera-192.168.1.100-80` or `genicam-camera-basler-21234567`.",
     ),
 ]
 
@@ -47,8 +48,9 @@ Manager = Annotated[CameraManager, Depends(get_camera_manager)]
 )
 def get_sensors(manager: Manager):
     """
-    Return all USB cameras (enumerated live with `v4l2-ctl`) and ONVIF network cameras
-    (from the latest WS-Discovery sweep). Previously loaded ONVIF profiles are preserved.
+    Return all USB cameras (enumerated live with `v4l2-ctl`), ONVIF network cameras
+    (from the latest WS-Discovery sweep) and GenICam cameras (enumerated live with Aravis
+    `arv-tool-0.8`). Previously loaded ONVIF profiles are preserved.
     """
     try:
         return [_internal_camera_to_api(cam) for cam in manager.discover_all_cameras()]
@@ -156,7 +158,9 @@ def _internal_camera_to_api(camera: InternalCamera) -> schemas.Camera:
                 height=camera.details.best_capture.height,
                 fps=camera.details.best_capture.fps,
             )
-        details: schemas.USBCameraDetails | schemas.NetworkCameraDetails = schemas.USBCameraDetails(
+        details: (
+            schemas.USBCameraDetails | schemas.NetworkCameraDetails | schemas.GenICamCameraDetails
+        ) = schemas.USBCameraDetails(
             device_path=camera.details.device_path,
             best_capture=best_capture,
         )
@@ -169,6 +173,12 @@ def _internal_camera_to_api(camera: InternalCamera) -> schemas.Camera:
             port=camera.details.port,
             profiles=[_internal_profile_to_api(p) for p in camera.details.profiles],
             best_profile=best_profile,
+        )
+    elif isinstance(camera.details, InternalGenICamCameraDetails):
+        details = schemas.GenICamCameraDetails(
+            aravis_id=camera.details.aravis_id,
+            protocol=camera.details.protocol,
+            address=camera.details.address,
         )
     else:
         raise ValueError(f"Unknown camera details type: {type(camera.details)}")

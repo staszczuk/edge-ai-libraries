@@ -21,7 +21,9 @@ SENSOR_MANAGER_PORT=8090 uv run python -m src
 ```
 
 USB discovery requires `v4l2-ctl` (the `v4l-utils` package), and your user must be able to open
-`/dev/video*` devices (member of the `video` group).
+`/dev/video*` devices (member of the `video` group). GenICam discovery requires
+`arv-tool-0.8` (the `aravis-tools-cli` package); USB3 Vision cameras additionally need udev
+rules granting access to the USB device.
 
 ## Run Tests and Linters
 

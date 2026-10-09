@@ -9,6 +9,7 @@ from fastapi import FastAPI
 from src.api.routes import health, sensors
 from src.core.camera_manager import CameraManager
 from src.core.config import Settings
+from src.core.genicam import GenICamCameraDiscovery
 from src.core.onvif import ONVIFCameraDiscovery
 from src.core.usb import USBCameraDiscovery
 
@@ -30,7 +31,9 @@ async def lifespan(app: FastAPI):
     onvif_discovery = ONVIFCameraDiscovery(interval_s=settings.onvif_discovery_interval_s)
     if settings.onvif_discovery_enabled:
         onvif_discovery.start()
-    app.state.camera_manager = CameraManager(USBCameraDiscovery(), onvif_discovery)
+    app.state.camera_manager = CameraManager(
+        USBCameraDiscovery(), onvif_discovery, GenICamCameraDiscovery()
+    )
     try:
         yield
     finally:
@@ -39,7 +42,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Sensor Manager API",
-    description="Discovery and description of USB and ONVIF network cameras.",
+    description="Discovery and description of USB, ONVIF network and GenICam cameras.",
     version="2026.3.0-dev",
     lifespan=lifespan,
 )

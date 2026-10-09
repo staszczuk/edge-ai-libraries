@@ -1,6 +1,7 @@
 # Get Started
 
-Sensor Manager discovers USB and ONVIF network cameras and exposes them through a REST API.
+Sensor Manager discovers USB, ONVIF network and GenICam (GigE Vision, USB3 Vision) cameras and
+exposes them through a REST API.
 
 ## Prerequisites
 

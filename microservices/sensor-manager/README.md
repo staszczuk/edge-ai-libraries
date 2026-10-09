@@ -9,6 +9,8 @@ describes how to stream from them:
   (RTSP URL, encoding, resolution, frame rate) using the
   [`dlstreamer.onvif`](https://github.com/open-edge-platform/dlstreamer/tree/main/python/dlstreamer/onvif)
   library.
+- **GenICam cameras** (GigE Vision and USB3 Vision) – enumerated with the Aravis
+  `arv-tool-0.8` CLI; cameras are only listed, never opened.
 
 ## Quick start
 
@@ -23,7 +25,7 @@ curl http://localhost:8090/api/v1/sensors
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/api/v1/health` | Service health |
-| GET | `/api/v1/sensors` | List USB and ONVIF cameras |
+| GET | `/api/v1/sensors` | List USB, ONVIF and GenICam cameras |
 | GET | `/api/v1/sensors/{sensor_id}` | Get a single camera |
 | POST | `/api/v1/sensors/{sensor_id}/profiles` | Load ONVIF profiles using camera credentials |
 

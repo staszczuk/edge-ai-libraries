@@ -11,6 +11,7 @@ from src.core.internal_types import (
     InternalCamera,
     InternalCameraProfileInfo,
     InternalCameraType,
+    InternalGenICamCameraDetails,
     InternalNetworkCameraDetails,
     InternalUSBCameraDetails,
 )
@@ -36,6 +37,17 @@ def _net(device_id=NET_ID, profiles=None):
     )
 
 
+def _genicam(device_id="genicam-camera-basler-1"):
+    return InternalCamera(
+        device_id=device_id,
+        device_name="Basler-1",
+        device_type=InternalCameraType.GENICAM,
+        details=InternalGenICamCameraDetails(
+            aravis_id="Basler-1", protocol="GigEVision", address="192.168.1.10"
+        ),
+    )
+
+
 @pytest.fixture
 def usb_discovery():
     return MagicMock()
@@ -47,19 +59,45 @@ def onvif_discovery():
 
 
 @pytest.fixture
-def manager(usb_discovery, onvif_discovery):
+def genicam_discovery():
+    return MagicMock()
+
+
+@pytest.fixture
+def manager(usb_discovery, onvif_discovery, genicam_discovery):
     usb_discovery.discover_cameras.return_value = []
     onvif_discovery.discover_cameras.return_value = []
-    return CameraManager(usb_discovery, onvif_discovery)
+    genicam_discovery.discover_cameras.return_value = []
+    return CameraManager(usb_discovery, onvif_discovery, genicam_discovery)
 
 
-def test_discover_all_combines_usb_and_network(manager, usb_discovery, onvif_discovery):
+def test_discover_all_combines_usb_network_and_genicam(
+    manager, usb_discovery, onvif_discovery, genicam_discovery
+):
     usb_discovery.discover_cameras.return_value = [_usb()]
     onvif_discovery.discover_cameras.return_value = [_net()]
+    genicam_discovery.discover_cameras.return_value = [_genicam()]
 
     ids = [c.device_id for c in manager.discover_all_cameras()]
 
-    assert ids == ["usb-camera-cam-0", NET_ID]
+    assert ids == ["usb-camera-cam-0", NET_ID, "genicam-camera-basler-1"]
+
+
+def test_genicam_discovery_error_keeps_cache(manager, genicam_discovery):
+    genicam_discovery.discover_cameras.return_value = [_genicam()]
+    manager.discover_genicam_cameras()
+    genicam_discovery.discover_cameras.side_effect = RuntimeError("boom")
+
+    assert [c.device_id for c in manager.discover_genicam_cameras()] == ["genicam-camera-basler-1"]
+
+
+def test_get_camera_by_id_finds_genicam(manager, genicam_discovery):
+    genicam_discovery.discover_cameras.return_value = [_genicam()]
+
+    camera = manager.get_camera_by_id("genicam-camera-basler-1")
+
+    assert camera is not None
+    assert camera.device_type == InternalCameraType.GENICAM
 
 
 def test_cache_removes_vanished_and_adds_new(manager, usb_discovery):

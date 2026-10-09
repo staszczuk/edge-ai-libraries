@@ -13,6 +13,7 @@ from src.core.internal_types import (
     InternalCamera,
     InternalCameraProfileInfo,
     InternalCameraType,
+    InternalGenICamCameraDetails,
     InternalNetworkCameraDetails,
     InternalUSBCameraDetails,
     InternalV4L2BestCapture,
@@ -50,6 +51,17 @@ def _net_camera(profiles=None):
     )
 
 
+def _genicam_camera():
+    return InternalCamera(
+        device_id="genicam-camera-basler-21234567",
+        device_name="Basler-21234567",
+        device_type=InternalCameraType.GENICAM,
+        details=InternalGenICamCameraDetails(
+            aravis_id="Basler-21234567", protocol="GigEVision", address="192.168.1.10"
+        ),
+    )
+
+
 @pytest.fixture
 def manager():
     return MagicMock()
@@ -71,13 +83,13 @@ def test_health(client):
 
 
 def test_get_sensors(client, manager):
-    manager.discover_all_cameras.return_value = [_usb_camera(), _net_camera()]
+    manager.discover_all_cameras.return_value = [_usb_camera(), _net_camera(), _genicam_camera()]
 
     response = client.get("/api/v1/sensors")
 
     assert response.status_code == 200
     data = response.json()
-    assert [s["device_type"] for s in data] == ["USB", "NETWORK"]
+    assert [s["device_type"] for s in data] == ["USB", "NETWORK", "GENICAM"]
     assert data[0]["details"] == {
         "device_path": "/dev/video0",
         "best_capture": {"fourcc": "MJPG", "width": 1920, "height": 1080, "fps": 30.0},
@@ -87,6 +99,11 @@ def test_get_sensors(client, manager):
         "port": 80,
         "profiles": [],
         "best_profile": None,
+    }
+    assert data[2]["details"] == {
+        "aravis_id": "Basler-21234567",
+        "protocol": "GigEVision",
+        "address": "192.168.1.10",
     }
 
 

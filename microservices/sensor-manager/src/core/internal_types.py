@@ -9,6 +9,7 @@ from typing import List, Optional, Union
 class InternalCameraType(str, Enum):
     USB = "USB"
     NETWORK = "NETWORK"
+    GENICAM = "GENICAM"
 
 
 @dataclass
@@ -57,8 +58,17 @@ class InternalNetworkCameraDetails:
 
 
 @dataclass
+class InternalGenICamCameraDetails:
+    aravis_id: str
+    protocol: str
+    address: Optional[str] = None
+
+
+@dataclass
 class InternalCamera:
     device_id: str
     device_name: str
     device_type: InternalCameraType
-    details: Union[InternalUSBCameraDetails, InternalNetworkCameraDetails]
+    details: Union[
+        InternalUSBCameraDetails, InternalNetworkCameraDetails, InternalGenICamCameraDetails
+    ]
